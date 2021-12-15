@@ -1,6 +1,6 @@
 import pyautogui
 
-wincenter : tuple
+wincenter : tuple = ()
 
 def found_start():
     
@@ -31,14 +31,20 @@ def found_d2rwin():
             play_pos = pyautogui.locateOnScreen(f'assets/win/d2wintitle.png',grayscale=True, confidence=.8 )
 
             if  play_pos  :
-                
-                wincenter = (play_pos.x, play_pos.y + 375)
+                center = pyautogui.center(play_pos)
+                wincenter = (center.x, center.y + 375)
                 print(wincenter)
                 pyautogui.moveTo(wincenter)
                 break
                 # return  pyautogui.center(play_pos)
 
-def funnd_get(*args) :
+def funnd_get(args:list) :
 
-    for a in args :
-        print(a)
+    while 1 :
+        for a in args :
+            a_pos = pyautogui.locateOnScreen(f'assets/{a}.png',grayscale=True, confidence=.8 )
+            if a_pos :
+                print(F"發現座標 {a_pos}")
+                return pyautogui.center(a_pos)
+            
+    
