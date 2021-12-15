@@ -1,10 +1,12 @@
-from PIL.Image import NONE
+# from PIL.Image import NONE
 import pyautogui
 import pos
 import time
 
 pos.found_d2rwin
+pos.funnd_get("a")
 
+pos.funnd_get(["ff","gg"])
 
 time.sleep(1)
 # pyautogui.moveRel(NONE , 375 , duration= 0.5)
@@ -27,5 +29,6 @@ pos.found_d2rwin()
                 
 def end_game() :
     pyautogui.keyDown('esc')
-    time.sleep
+    time.sleep(0.03)
+    
     

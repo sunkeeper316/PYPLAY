@@ -37,3 +37,8 @@ def found_d2rwin():
                 pyautogui.moveTo(wincenter)
                 break
                 # return  pyautogui.center(play_pos)
+
+def funnd_get(*args) :
+
+    for a in args :
+        print(a)
