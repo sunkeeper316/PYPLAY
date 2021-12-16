@@ -31,6 +31,7 @@ def found_d2rwin():
             play_pos = pyautogui.locateOnScreen(f'assets/win/d2wintitle.png',grayscale=True, confidence=.8 )
 
             if  play_pos  :
+                global wincenter
                 center = pyautogui.center(play_pos)
                 wincenter = (center.x, center.y + 375)
                 print(wincenter)
