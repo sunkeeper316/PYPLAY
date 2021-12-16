@@ -2,6 +2,8 @@ import pyautogui
 
 wincenter : tuple = ()
 
+
+
 def found_start():
     
         while 1 :
