@@ -9,11 +9,12 @@ from task import Task
 
 class Player:
     def __init__(self , displaymap  = None , tasks = []) :
-        self.tasks.append()
+        # fself.tasks.append()
         self.displaymap = displaymap
         self.tasks = tasks
 
     def start(self) :
+        print("開始遊戲")
         play = pos.found_start()
 
         pyautogui.moveTo(play)
@@ -29,6 +30,8 @@ class Player:
         checkTownTask = Task()
         self.displaymap = checkTownTask.checTOWNSTART()
 
+        checkTownTask.a5_moveToRedWp()
+
         
 
     def checkTask(self) :
@@ -42,6 +45,7 @@ class Player:
         pyautogui.keyUp()
         return
 
+    
     def end_game(self) :
         print("離開遊戲")
         pyautogui.keyDown('esc')
@@ -50,11 +54,12 @@ class Player:
         pyautogui.moveTo(exit_pos)
         time.sleep(0.03)
         pyautogui.click()
-pos.found_d2rwin
+
+# pos.found_d2rwin
 
 
 
-pos.end_game()
+# pos.end_game()
 
 
 # time.sleep(1)

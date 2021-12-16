@@ -1,34 +1,44 @@
 # import displaymap
 # import cv2
 # import numpy as np
-import pyautogui
-import threading
-import datetime
-from itertools import count
-import time
-import sched
+# import pyautogui
+# import threading
+# import datetime
+# from itertools import count
+# import time
+# import sched
+# from numpy import datetime64
+import pos
+import task
+
+# pos.found_d2rwin
+
+t = task.Task()
+
+t.a5_wpATK()
 
 
-from numpy import datetime64
 
-def jop() :
-    now = datetime.datetime.now()
-    ts = now.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"now {ts}")
 
-def loopTest() :
-    s = sched.scheduler(time.time , time.sleep)
-    s.enter(2,1,jop , ())
-    s.run()
+
+# def jop() :
+#     now = datetime.datetime.now()
+#     ts = now.strftime('%Y/%m/%d %H:%M:%S')
+#     print(f"now {ts}")
+
+# def loopTest() :
+#     s = sched.scheduler(time.time , time.sleep)
+#     s.enter(2,1,jop , ())
+#     s.run()
     
-def timerGO() :
-    timer = threading.Timer(2 , jop)
-    timer.start()
-if __name__ == "__main__" :
-    count = 0
-    while count < 5 :
-        count += 1
-        loopTest()
+# def timerGO() :
+#     timer = threading.Timer(2 , jop)
+#     timer.start()
+# if __name__ == "__main__" :
+#     count = 0
+#     while count < 5 :
+#         count += 1
+#         loopTest()
     # timerGO()
     
 

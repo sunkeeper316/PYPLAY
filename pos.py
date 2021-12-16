@@ -27,7 +27,7 @@ def found_pos(img):
                 return  pyautogui.center(play_pos)
                     
 def found_d2rwin():
-    
+        print("尋找D2視窗中心")
         while 1 :
             play_pos = pyautogui.locateOnScreen(f'assets/win/d2wintitle.png',grayscale=True, confidence=.8 )
 
@@ -36,18 +36,41 @@ def found_d2rwin():
                 center = pyautogui.center(play_pos)
                 wincenter = (center.x, center.y + 375)
                 print(wincenter)
+                print("找到D2視窗中心")
+                
                 pyautogui.moveTo(wincenter)
-                break
+                return wincenter
                 # return  pyautogui.center(play_pos)
 
-def funnd_get(args:list , q:Queue) :
+def funnd_get(list:list , q:Queue) :
 
     while 1 :
-        for a in args :
+        for a in list :
             a_pos = pyautogui.locateOnScreen(f'assets/{a}.png',grayscale=True, confidence=.8 )
             if a_pos :
                 print(F"發現座標 {a_pos}")
-                q.put(pyautogui.center(a_pos))
+                if q :
+                    q.put(pyautogui.center(a_pos))
+                
+                return pyautogui.center(a_pos)
+
+def found_get(list:list) :
+
+    while 1 :
+        for a in list :
+            a_pos = pyautogui.locateOnScreen(f'{a}',grayscale=True, confidence=.7 )
+            if a_pos :
+                print(F"發現座標 {a_pos}")
+                
+                return pyautogui.center(a_pos)
+                
+def found_getLV8(list:list) :
+    while 1 :
+        for a in list :
+            a_pos = pyautogui.locateOnScreen(f'{a}',grayscale=True, confidence=.8 )
+            if a_pos :
+                print(F"發現座標 {a_pos}")
+                
                 return pyautogui.center(a_pos)
             
 def found_twon(list:list) :
