@@ -1,8 +1,7 @@
 import pyautogui
+from queue import Queue
 
 wincenter : tuple = ()
-
-
 
 def found_start():
     
@@ -41,13 +40,19 @@ def found_d2rwin():
                 break
                 # return  pyautogui.center(play_pos)
 
-def funnd_get(args:list) :
+def funnd_get(args:list , q:Queue) :
 
     while 1 :
         for a in args :
             a_pos = pyautogui.locateOnScreen(f'assets/{a}.png',grayscale=True, confidence=.8 )
             if a_pos :
                 print(F"發現座標 {a_pos}")
+                q.put(pyautogui.center(a_pos))
                 return pyautogui.center(a_pos)
             
-    
+def found_twon(list:list) :
+    while 1 :
+        for l in list :
+            l_pos = pyautogui.locateOnScreen(f'{l}',grayscale=True, confidence=.8 )
+            if l_pos :
+                return {"path":l , "pos":l_pos}

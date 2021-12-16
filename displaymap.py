@@ -1,5 +1,5 @@
-
-
+import os
+import cv2
 
 class DisplayMap:
     # A5 Town
@@ -35,6 +35,41 @@ class DisplayMap:
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
+    # A2 Town
+    A2_TOWN_START = "a2_town_start"
+    A2_WP = "a2_wp"
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_WP = "a1_wp"
+
+class ImgPath :
+    #A1
+    A1_TOWN_START = "assets/templates/a1_town/a1_town_0.png"
+    #A2
+    A2_TOWN_START = "assets/templates/a2_town/a2_town_0.png"
+    #A3
+    A3_TOWN_START = "assets/templates/a3_town/a3_town_0.png"
+    #A4
+    A4_TOWN_START = "assets/templates/a4_town/a4_town_0.png"
+    #A5
+    A5_TOWN_START = "assets/templates/a5_town/a5_town_0.png"
+
+
+
+
+# 此函數用於讀取圖像，輸入為目錄名稱
+def read_directory(directory_name):
+    # 此循環用於讀取此文件夾中的每個圖像，目錄名稱是帶有圖像的文件夾名稱。
+    for filename in os.listdir(r"./"+directory_name):
+        #print(filename) #just for test
+        #img 用於存儲圖像數據
+        img = cv2.imread(directory_name + "/" + filename) #抓取讀項
+        array_of_img = [] # 這如果用於存儲所有圖像路徑
+        # array_of_img.append(img) 如果要數據
+        #print(img)
+        print(f"{directory_name}{filename}") 
+        array_of_img.append(f"{directory_name}{filename}")
+        # print(array_of_img)
+
+        
+    return array_of_img

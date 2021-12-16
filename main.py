@@ -1,6 +1,4 @@
-
-
-
+import displaymap
 from player import Player
 
 def main() :
@@ -12,5 +10,9 @@ def main() :
 
 # run start
 
+
+
 main()
+
+
 

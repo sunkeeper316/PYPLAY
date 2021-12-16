@@ -8,10 +8,12 @@ import displaymap
 from task import Task
 
 class Player:
-    def __init__(self , displaymap : DisplayMap = None , tasks = []) :
+    def __init__(self , displaymap  = None , tasks = []) :
         self.tasks.append()
+        self.displaymap = displaymap
+        self.tasks = tasks
 
-    def start() :
+    def start(self) :
         play = pos.found_start()
 
         pyautogui.moveTo(play)
@@ -23,8 +25,16 @@ class Player:
         pyautogui.click()
 
         pos.found_d2rwin()
+        
+        checkTownTask = Task()
+        self.displaymap = checkTownTask.checTOWNSTART()
 
-    def moveSouth() :
+        
+
+    def checkTask(self) :
+        Task.checkDisPlay()
+
+    def moveSouth(self) :
         pyautogui.moveTo(pos.wincenter)
         pyautogui.moveRel(None , 100)
         pyautogui.keyDown('e')
@@ -32,7 +42,7 @@ class Player:
         pyautogui.keyUp()
         return
 
-    def end_game() :
+    def end_game(self) :
         print("離開遊戲")
         pyautogui.keyDown('esc')
         time.sleep(0.03)
