@@ -1,5 +1,6 @@
 import os
 import cv2
+# import pandas as pd 
 
 class DisplayMap:
     # A5 Town
@@ -60,16 +61,54 @@ class ImgPath :
 # 此函數用於讀取圖像，輸入為目錄名稱
 def read_directory(directory_name):
     # 此循環用於讀取此文件夾中的每個圖像，目錄名稱是帶有圖像的文件夾名稱。
-    for filename in os.listdir(r"./"+directory_name):
+    array_of_img = []
+    
+    if directory_name.__contains__("json") :
+        return
+    else :
+        for filename in os.listdir(r"./"+directory_name):
         #print(filename) #just for test
         #img 用於存儲圖像數據
-        img = cv2.imread(directory_name + "/" + filename) #抓取讀項
-        array_of_img = [] # 這如果用於存儲所有圖像路徑
+        # img = cv2.imread(directory_name + "/" + filename) #抓取讀項
+         # 這如果用於存儲所有圖像路徑
         # array_of_img.append(img) 如果要數據
         #print(img)
-        print(f"{directory_name}{filename}") 
-        array_of_img.append(f"{directory_name}{filename}")
-        # print(array_of_img)
-
-        
+            print(f"{directory_name}{filename}") 
+            array_of_img.append(f"{directory_name}{filename}")
+        # print(array_of_img)   
     return array_of_img
+
+def checkFilesImg(files) :
+    imgs = []
+    _files = []
+    for f in files : 
+        print(f"find {f}")
+        if not f.__contains__(".png") :
+            _files.append(f)
+        else :
+           imgs.append(f) 
+    return imgs , _files
+
+if __name__ == "__main__" :
+    
+    allImgs = []
+    files = read_directory("assets/")
+
+    imgs , _files = checkFilesImg(files)
+    
+    while _files.count == 0 and imgs.count == 0:
+        for img in imgs :
+            allImgs.append(img)
+
+        for f in _files :
+            
+            _imgs , __files = checkFilesImg(read_directory(f))
+            imgs = _imgs
+            _files = __files
+        
+
+
+    
+
+
+    
