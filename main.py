@@ -9,10 +9,13 @@ def main() :
 
 
 # run start
+print(__name__)
 
+if __name__ == "__main__" :
 
-
-main()
+    # a = .9
+    # print(a)
+    main()
 
 
 

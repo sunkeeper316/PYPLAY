@@ -13,7 +13,7 @@ class Task:
     def __init__(self,level = 0) :
         self.level = level
     
-    pos.found_d2rwin()
+        pos.found_d2rwin()
 
     def take_items(self) :
         pyautogui.press('alt')

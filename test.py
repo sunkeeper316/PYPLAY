@@ -13,12 +13,14 @@ import task
 
 # pos.found_d2rwin
 
-t = task.Task()
+# t = task.Task()
 
-t.a5_wpATK()
+# t.a5_wpATK()
 
 
-
+if __name__ == "__main__" :
+    a = .9
+    print(a)
 
 
 # def jop() :

@@ -38,7 +38,7 @@ def found_d2rwin():
                 print(wincenter)
                 print("找到D2視窗中心")
                 
-                pyautogui.moveTo(wincenter)
+                # pyautogui.moveTo(wincenter)
                 return wincenter
                 # return  pyautogui.center(play_pos)
 
@@ -64,10 +64,10 @@ def found_get(list:list) :
                 
                 return pyautogui.center(a_pos)
                 
-def found_getLV8(list:list) :
+def found_get(list:list , confidence) :
     while 1 :
         for a in list :
-            a_pos = pyautogui.locateOnScreen(f'{a}',grayscale=True, confidence=.8 )
+            a_pos = pyautogui.locateOnScreen(f'{a}',grayscale=True, confidence=confidence )
             if a_pos :
                 print(F"發現座標 {a_pos}")
                 
