@@ -63,7 +63,7 @@ def read_directory(directory_name):
     # 此循環用於讀取此文件夾中的每個圖像，目錄名稱是帶有圖像的文件夾名稱。
     array_of_img = []
     
-    if directory_name.__contains__("json") :
+    if directory_name.__contains__(".") :
         return
     else :
         for filename in os.listdir(r"./"+directory_name):
@@ -83,10 +83,11 @@ def checkFilesImg(files) :
     _files = []
     for f in files : 
         print(f"find {f}")
-        if not f.__contains__(".png") :
+        if f.__contains__(".png") :
+            imgs.append(f) 
+        elif not f.__contains__(".") :
             _files.append(f)
-        else :
-           imgs.append(f) 
+                
     return imgs , _files
 
 if __name__ == "__main__" :
@@ -95,16 +96,24 @@ if __name__ == "__main__" :
     files = read_directory("assets/")
 
     imgs , _files = checkFilesImg(files)
-    
-    while _files.count == 0 and imgs.count == 0:
+    # print(_files)
+
+    while len(_files) > 0 :
         for img in imgs :
             allImgs.append(img)
+        for f in _files :    
+            _imgs , __files = checkFilesImg(read_directory(f"{f}/"))
+            _files.remove(f)
+            for __img in _imgs :
+                allImgs.append(__img)
+            for _f in __files :
+                _files.append(_f)
+    print("allImgs-----")
+    print(allImgs)
 
-        for f in _files :
-            
-            _imgs , __files = checkFilesImg(read_directory(f))
-            imgs = _imgs
-            _files = __files
+    with open("allImgs.txt" , 'w') as f :
+        for img in allImgs :
+            f.write(f"{img}\n")
         
 
 
