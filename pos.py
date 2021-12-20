@@ -41,6 +41,13 @@ def found_d2rwin():
                 # pyautogui.moveTo(wincenter)
                 return wincenter
                 # return  pyautogui.center(play_pos)
+def found_center() :
+    print("尋找D2視窗中心")
+    while 1 :
+        _pos = pyautogui.locateCenterOnScreen(f'assets/win/d2wintitle.png',grayscale=True, confidence=.8 )
+        if _pos :
+            return (_pos.x , _pos.y + 375)
+            
 
 def funnd_get(list:list , q:Queue) :
 

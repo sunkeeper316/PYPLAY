@@ -79,25 +79,30 @@ class MoveHandler :
 
         # s = sched.scheduler(time.time ,time.sleep)
         # s.enter(2,1,)
-        t = threading.Thread(target=self.getDist)
-        t.start()
-        
+        # t = threading.Thread(target=self.getDist)
+        # t.start()
+        center = pos.found_center()
         for index , t in enumerate(self.targetPathList)  :
             print(f"index{index}")
             self.targetname = t.target
-            self.direction = t.direction
+            pyautogui.moveTo(center)
+            time.sleep(0.3)
+            pyautogui.moveRel(t.postion)
+            pyautogui.press('e')
             # direction.getDirection(t.direction)
             # pyautogui.keyDown('e')
-            # time.sleep(0.5)
+            time.sleep(1.5)
+        
+        
             # pyautogui.keyUp('e')
-            if index == len(self.targetPathList) - 1 :
-                print("已到目的地")
-                return
-            else :
-                print("還有下一個目標")
-                while  1 :
-                    if not self.targetname == t.target :
-                        break
+            # if index == len(self.targetPathList) - 1 :
+            #     print("已到目的地")
+            #     return
+            # else :
+            #     print("還有下一個目標")
+            #     while  1 :
+            #         if not self.targetname == t.target :
+            #             break
            
     def move(self) :
         t = threading.Thread(target=self.getDist)
@@ -177,7 +182,7 @@ if __name__ == "__main__" :
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    m = MoveHandler(targetPathList= TargetPath.a5_redDoorPath())
+    m = MoveHandler(targetPathList= TargetPath.a5_redDoorPaths())
     # malah_name_tag_white
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()

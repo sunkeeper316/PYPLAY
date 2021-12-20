@@ -9,7 +9,7 @@ import threading
 import time
 # import sched
 # from numpy import datetime64
-# import pos
+import pos
 # import task
 
 # pos.found_d2rwin
@@ -31,8 +31,11 @@ def found_zero():
 
 def getPosition() :
     while 1 :
-        print("getPosition")
-        print(pyautogui.position())
+        print(f"found_center{pos.found_center()}")
+        center = pos.found_center()
+        m_p = pyautogui.position()
+        print(( m_p[0] - center[0]  , m_p[1] - center[1]))
+        pyautogui.press('e')
         time.sleep(0.5)
     
     
@@ -55,12 +58,12 @@ if __name__ == "__main__" :
 
     getMouse()
 
-    center = found_zero()
-    while 1 :
-        square_pos = pyautogui.locateCenterOnScreen('tests/Square.png')
-        if square_pos :
-            print(f"square_pos {square_pos}")
-            break
+    # center = found_zero()
+    # while 1 :
+    #     square_pos = pyautogui.locateCenterOnScreen('tests/Square.png')
+    #     if square_pos :
+    #         print(f"square_pos {square_pos}")
+    #         break
 
     
     
