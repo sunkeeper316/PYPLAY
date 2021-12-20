@@ -1,26 +1,70 @@
+import math
 # import displaymap
 # import cv2
 # import numpy as np
-# import pyautogui
-# import threading
+import pyautogui
+import threading
 # import datetime
 # from itertools import count
-# import time
+import time
 # import sched
 # from numpy import datetime64
-import pos
-import task
+# import pos
+# import task
 
 # pos.found_d2rwin
 
 # t = task.Task()
 
 # t.a5_wpATK()
+def found_zero():
+        print("尋找原點")
+        while 1 :
+            play_pos = pyautogui.locateCenterOnScreen(f'tests/zero.png',grayscale=True, confidence=.8 )
 
+            if  play_pos  :
+                print("找到D2視窗中心")
+                
+                # pyautogui.moveTo(wincenter)
+                return play_pos
+                # return  pyautogui.center(play_pos)
+
+def getPosition() :
+    while 1 :
+        print("getPosition")
+        print(pyautogui.position())
+        time.sleep(0.5)
+    
+    
+
+
+def getMouse() :
+    t = threading.Thread(target=getPosition)
+    t.start()
 
 if __name__ == "__main__" :
-    a = .9
-    print(a)
+    zero = (0,0)
+    a_pos = (640,360)
+    b_pos = (54,80)
+    _hypot = math.hypot(30,40)
+    d = math.dist(a_pos , b_pos)
+    
+    # print(f"a_pos 距離 {math.dist(a_pos,zero)}")
+    # print(math.hypot(a_pos[0] ,a_pos[1] ))
+    # print(math.hypot(b_pos[0] ,b_pos[1] ))
+
+    getMouse()
+
+    center = found_zero()
+    while 1 :
+        square_pos = pyautogui.locateCenterOnScreen('tests/Square.png')
+        if square_pos :
+            print(f"square_pos {square_pos}")
+            break
+
+    
+    
+
 
 
 # def jop() :
