@@ -17,3 +17,11 @@ class TargetPath :
         t6 = TargetPath("assets/templates/a5_town/a5_town_7.png",postion = (-500 , -90))
 
         return [t1 , t2 , t3 , t4 , t5 , t6]
+
+    @staticmethod
+    def a5_malah():
+        t1 = TargetPath("assets/templates/a5_town/a5_town_4.png",postion = (-580 , -160))
+        t2 = TargetPath("assets/templates/a5_town/a5_town_12.png",postion = (260 , -200))
+        t3 = TargetPath("assets/templates/a5_town/a5_town_7.png",postion = (-260 , 200))
+        t4 = TargetPath("assets/templates/a5_town/a5_town_7.png",postion = (580 , 160))
+        return [t1 , t2 , t3 , t4 ]

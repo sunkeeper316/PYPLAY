@@ -182,7 +182,7 @@ if __name__ == "__main__" :
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    m = MoveHandler(targetPathList= TargetPath.a5_redDoorPaths())
+    m = MoveHandler(targetPathList= TargetPath.a5_malah())
     # malah_name_tag_white
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()

@@ -35,7 +35,7 @@ def getPosition() :
         center = pos.found_center()
         m_p = pyautogui.position()
         print(( m_p[0] - center[0]  , m_p[1] - center[1]))
-        pyautogui.press('e')
+        # pyautogui.press('e')
         time.sleep(0.5)
     
     
