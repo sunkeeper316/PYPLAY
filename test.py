@@ -63,18 +63,30 @@ def getMouse() :
     t = threading.Thread(target=getPosition)
     t.start()
 
+def testRun(show):
+    print(f"testRun show: {show}")
+
+def testCallback( run ,callback) :
+    for r in range(1,run) :
+        callback(r)
+
 if __name__ == "__main__" :
-    zero = (0,0)
-    a_pos = (640,360)
-    b_pos = (54,80)
-    _hypot = math.hypot(30,40)
-    d = math.dist(a_pos , b_pos)
+    testCallback(3,callback =testRun)
+    keyboard.add_hotkey('e', lambda: testRun("got key e"))
+
+    while 1 :
+        a = 1
+    # zero = (0,0)
+    # a_pos = (640,360)
+    # b_pos = (54,80)
+    # _hypot =eee math.hypot(30,40)
+    # d = math.dist(a_pos , b_pos)
     
     # print(f"a_pos 距離 {math.dist(a_pos,zero)}")
     # print(math.hypot(a_pos[0] ,a_pos[1] ))
     # print(math.hypot(b_pos[0] ,b_pos[1] ))
 
-    getMouse()
+    # getMouse()
 
     # center = found_zero()
     # while 1 :

@@ -1,6 +1,6 @@
 import pos
 import threading
-import sched
+import displaymap
 import time
 import math
 import pyautogui
@@ -10,8 +10,8 @@ from targetpath import TargetPath, TargetProcess
 class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
-    # TargetProcess 流程來執行整體移動
-    def __init__(self  ,targetprocess,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
+    # TargetProcess 流程來執行整體移動 teleport 是否能傳送
+    def __init__(self  ,targetprocess,teleport = False,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
         self.center = center
         self.targetprocess = targetprocess
         self.target = target
@@ -21,6 +21,7 @@ class MoveHandler :
         self.targetPathList = targetPathList
         self.direction = None
         self.current = current
+
 
     def adjust(self ,target) :
         print("修正目的地位子")
@@ -189,7 +190,7 @@ class MoveHandler :
         pyautogui.click()
         return
 
-    def runTargetProcess(self) :
+    def runTargetProcess(self , teleport = False) :
         start_target = self.targetprocess.start_target
         self.adjust(start_target)
         self.current = start_target
@@ -198,6 +199,8 @@ class MoveHandler :
             pyautogui.moveTo(self.center)
             time.sleep(0.1)
             pyautogui.moveRel(pos)
+            if teleport :
+                pyautogui.press('f3')
             pyautogui.press('e')
             time.sleep(1.5)
 
@@ -208,6 +211,28 @@ class MoveHandler :
         if self.targetprocess.search :
             self.search()
 
+        return
+    def atk(self,timeout , key , interval) :
+        start = time.time()
+        while ( time.time() - start ) > timeout :
+            pyautogui.press(f'{key}')
+            time.sleep(interval)
+        self.pickitems(10,0.1)
+    def pickitems(self,timeout , interval) :
+        pyautogui.press('alt')
+        time.sleep(0.5)
+        items = displaymap.read_directory("assets/items/")
+        start = time.time()
+        while ( time.time() - start ) > timeout :
+            for item in items :
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )
+                if a_pos :
+                    pyautogui.moveTo()
+                    time.sleep(0.1)
+                    pyautogui.click()
+            
+            time.sleep(interval)
+    def putstore() :
         return
 
     
@@ -223,5 +248,5 @@ if __name__ == "__main__" :
     # malah_name_tag_white
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
-    m.moveTargetPathList()
+    m.runTargetProcess()
     # m.move()
