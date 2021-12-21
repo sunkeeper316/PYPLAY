@@ -23,17 +23,17 @@ def found_start():
                 return pyautogui.center(play_gary_pos)
 
 
-def found_pos(img , confidence):
-    start = time.time()
-    while (time.time() - start) < 20:
-        _pos = pyautogui.locateCenterOnScreen(
-            f'{img}', grayscale=True, confidence=confidence)
+# def found_pos(img , confidence):
+#     start = time.time()
+#     while (time.time() - start) < 20:
+#         _pos = pyautogui.locateCenterOnScreen(
+#             f'{img}', grayscale=True, confidence=confidence)
 
-        if _pos:
-            return _pos
-        time.sleep(0.05)
-    return None
-def found_pos(img , confidence ,timeout):
+#         if _pos:
+#             return _pos
+#         time.sleep(0.05)
+#     return None
+def found_pos(img , confidence ,timeout = 60):
     start = time.time()
     while (time.time() - start) < timeout:
         _pos = pyautogui.locateCenterOnScreen(

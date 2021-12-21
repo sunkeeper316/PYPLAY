@@ -8,21 +8,21 @@ class TargetProcess :
     
     @staticmethod
     def a5_start_to_redDoor():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        poslist = [(-475 , 340),(0 , 225),(-500 , 330),(0 , 210) , (0 , 50),(-500 , -90)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        return TargetProcess(start_target , poslist , end_target)
+        start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
+        poslist = [(-475 , 340),(0 , 225),(-500 , 330),(0 , 210) , (0 , 120),(-500 , -90)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target , "assets/templates/a5_red_portal_text.png")
     @staticmethod
     def a5_start_to_malah():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        poslist = []
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        return TargetProcess(start_target , poslist , end_target)
+        start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
+        poslist = [(-580,-150),(250,-200)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
+        return TargetProcess(start_target , poslist , end_target , "assets/npc/malah/malah_name_tag_white.png")
     @staticmethod
     def a5_malah_to_start():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        poslist = []
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
+        poslist = [(-250,200),(580,150)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         return TargetProcess(start_target , poslist , end_target)
     @staticmethod
     def a5_start_to_store():

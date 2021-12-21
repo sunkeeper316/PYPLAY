@@ -1,3 +1,4 @@
+from pyscreeze import center
 import pos
 import threading
 import displaymap
@@ -5,7 +6,7 @@ import time
 import math
 import pyautogui
 import direction
-from targetpath import TargetPath, TargetProcess
+from targetpath import TargetPath, TargetProcess ,TargetPos
 
 class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
@@ -25,15 +26,37 @@ class MoveHandler :
 
     def adjust(self ,target) :
         print("修正目的地位子")
-        cur_pos = pos.found_pos(target.target)
-        if not cur_pos :
-            _pos = target.postion
-            adjust_x =  _pos[0] - cur_pos[0] 
-            adjust_y =  _pos[1] - cur_pos[1] 
-            pyautogui.moveTo((adjust_x , adjust_y))
-            pyautogui.press('e')
-        
+        while 1 :
+            _pos = pos.found_pos(target.target , .7)
+            time.sleep(0.1)
+            if  _pos :
+                current_pos = (_pos[0]-self.center[0],_pos[1]-self.center[1])
+                print(f"_pos:{_pos}")
+                print(f"center{self.center}")
+                adjust_x =  current_pos[0] - target.postion[0]
+                adjust_y =  current_pos[1] - target.postion[1]
+                print(f"adjust_ {(adjust_x , adjust_y)}")
+                if adjust_x > 30 or adjust_y > 30 or adjust_x < -30 or adjust_y < -30:
+                    pyautogui.moveTo(self.center)
+                    time.sleep(0.3)
+                    pyautogui.moveRel((adjust_x , adjust_y))
+                    time.sleep(0.3)
+                    pyautogui.press('e')
+                    # time.sleep(0.3)
+                    # self.test(target)
+                else :
+                    print("差距過小不需要修正")
+                    break
+            
+            time.sleep(0.5)
         return
+
+    def test(self,target) :
+        _pos = pos.found_pos(target.target , .7)
+        print(f"test center{self.center}")
+        print(f"test _pos:{_pos}")
+        pyautogui.moveTo(_pos)
+        print((_pos[0]-self.center[0],_pos[1]-self.center[1]))
 
     def getDist(self) : #取得距離另外線程處理
         if self.targetname == "" :
@@ -113,7 +136,7 @@ class MoveHandler :
 
     def search(self) :
         self.isSearch = False
-        count = 30
+        count = 60
         pyautogui.moveTo(self.center)
         t = threading.Thread(target=self.getTarget)
         t.start()
@@ -153,24 +176,29 @@ class MoveHandler :
             count += 30
             if count > 200 :
                 break
+        time.sleep(1)
         return
     def getTarget(self) :
         print("sreach")
-        newpos = pos.found_get(self.targetprocess.search , .7)
+        newpos = pos.found_pos(self.targetprocess.search , .7)
         
         if newpos :
             print("sreach 確定")
             self.target = newpos
             self.isSearch = True
-            t = threading.Timer(1 , self.movesreach)
-            t.start()
+            time.sleep(0.2)
+            pyautogui.moveTo((newpos[0] , newpos[1] + 50))
+            time.sleep(0.2)
+            pyautogui.click()
+            time.sleep(0.5)
+            # t = threading.Timer(1 , self.movesreach)
+            # t.start()
 
             
         return
     def movesreach(self) :
         print("點擊 sreach")
-        pyautogui.moveTo((self.target.x , self.target.y + 50))
-        pyautogui.click()
+        
         return
 
     def runTargetProcess(self , teleport = False) :
@@ -189,13 +217,15 @@ class MoveHandler :
 
         end_target = self.targetprocess.end_target
         self.adjust(end_target)
+
         self.current = end_target
         print(f"當前位子{self.current}")
         if self.targetprocess.search :
             print(f"尋找目標{self.targetprocess.search}")
+            time.sleep(0.3)
             self.search()
-
-        return
+        time.sleep(0.3)
+        return True
     def atk(self,timeout , key , interval) :
         start = time.time()
         while ( time.time() - start ) > timeout :
@@ -219,19 +249,29 @@ class MoveHandler :
     def putstore() :
         return
 
-    
+
 
 if __name__ == "__main__" : 
 
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    m = MoveHandler(TargetProcess= TargetProcess.a5_redDoor())
-    
+    testTargetPos = TargetPos("assets/templates/a5_town/a5_town_0.png" , (51,135))
+    m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
+    # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor
+    # m.test(testTargetPos)
+    # m.adjust(testTargetPos)
     # m = MoveHandler(targetPathList= TargetPath.a5_malah())
-    # malah_name_tag_white
+    # malah_name_tag_white   
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
-    m.runTargetProcess()
+    t1 = m.runTargetProcess()
+    if t1 :
+        
+        m.targetprocess = TargetProcess.a5_malah_to_start()
+        t2 = m.runTargetProcess()
+        if t2 :
+            m.targetprocess = TargetProcess.a5_start_to_redDoor()
+            t3 = m.runTargetProcess()
     # threading.Event
     # m.move()
