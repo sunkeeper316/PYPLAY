@@ -5,19 +5,34 @@ import time
 import math
 import pyautogui
 import direction
-from targetpath import TargetPath
+from targetpath import TargetPath, TargetProcess
 
 class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
-    def __init__(self  ,targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
+    # TargetProcess 流程來執行整體移動
+    def __init__(self  ,targetprocess,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
         self.center = center
+        self.targetprocess = targetprocess
         self.target = target
         self.targetname = targetname
         self.dist = -1
         self.isSearch = False
         self.targetPathList = targetPathList
         self.direction = None
+        self.current = current
+
+    def adjust(self ,target) :
+        print("修正目的地位子")
+        cur_pos = pos.found_pos(target.target)
+        if not cur_pos :
+            _pos = target.postion
+            adjust_x =  _pos[0] - cur_pos[0] 
+            adjust_y =  _pos[1] - cur_pos[1] 
+            pyautogui.moveTo((adjust_x , adjust_y))
+            pyautogui.press('e')
+        
+        return
 
     def getDist(self) : #取得距離另外線程處理
         if self.targetname == "" :
@@ -74,6 +89,7 @@ class MoveHandler :
                 
             time.sleep(0.05)
         return
+    
     def moveTargetPathList(self) : #路徑實行
         
         # self.target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
@@ -155,38 +171,55 @@ class MoveHandler :
                 break
         return
     def getTarget(self) :
-        newpos = pos.found_get(self.targetname , .7)
+        print("sreach")
+        newpos = pos.found_get(self.targetprocess.search , .7)
+        
         if newpos :
+            print("sreach 確定")
             self.target = newpos
             self.isSearch = True
-            t = threading.Timer(1 , self.moveTotargetNPC)
+            t = threading.Timer(1 , self.movesreach)
             t.start()
 
             
         return
-    def moveTotargetNPC(self) :
-
+    def movesreach(self) :
+        print("點擊 sreach")
         pyautogui.moveTo((self.target.x , self.target.y + 50))
         pyautogui.click()
         return
 
-    def adjust(self ,target) :
-        cur_pos = pos.found_pos(target.target)
-        if not cur_pos :
-            _pos = target.postion
-            adjust_x =  _pos[0] - cur_pos[0] 
-            adjust_y =  _pos[1] - cur_pos[1] 
-            pyautogui.moveTo((adjust_x , adjust_y))
+    def runTargetProcess(self) :
+        start_target = self.targetprocess.start_target
+        self.adjust(start_target)
+        self.current = start_target
+        print(f"當前位子{self.current}")
+        for index , pos in enumerate(self.targetprocess.poslist) :
+            pyautogui.moveTo(self.center)
+            time.sleep(0.1)
+            pyautogui.moveRel(pos)
             pyautogui.press('e')
-        
+            time.sleep(1.5)
+
+        end_target = self.targetprocess.end_target
+        self.adjust(end_target)
+        self.current = end_target
+        print(f"當前位子{self.current}")
+        if self.targetprocess.search :
+            self.search()
+
         return
+
+    
 
 if __name__ == "__main__" : 
 
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    m = MoveHandler(targetPathList= TargetPath.a5_malah())
+    m = MoveHandler(TargetProcess= TargetProcess.a5_redDoor())
+    
+    # m = MoveHandler(targetPathList= TargetPath.a5_malah())
     # malah_name_tag_white
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()

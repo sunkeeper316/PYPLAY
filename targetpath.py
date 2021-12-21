@@ -1,14 +1,63 @@
 
 class TargetProcess :
-    def __init__(self ,start_target , poslist , end_target) :
+    def __init__(self ,start_target , poslist , end_target , search = None) :
         self.start_target = start_target
         self.poslist = poslist
         self.end_target = end_target
+        self.search = search
     
     @staticmethod
-    def a5_redDoor():
+    def a5_start_to_redDoor():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
         poslist = [(-475 , 340),(0 , 225),(-500 , 330),(0 , 210) , (0 , 50),(-500 , -90)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_start_to_malah():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_malah_to_start():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_start_to_store():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_store_to_redDoor():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_store_to_fix():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_fix_to_store():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_malah_to_qual_kehk():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
+    @staticmethod
+    def a5_qual_kehk_to_store():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = []
         end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
         return TargetProcess(start_target , poslist , end_target)
 
