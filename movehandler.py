@@ -92,14 +92,7 @@ class MoveHandler :
         return
     
     def moveTargetPathList(self) : #路徑實行
-        
-        # self.target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
 
-        # s = sched.scheduler(time.time ,time.sleep)
-        # s.enter(2,1,)
-        # t = threading.Thread(target=self.getDist)
-        # t.start()
-        # center = pos.found_center()
         for index , t in enumerate(self.targetPathList)  :
             print(f"index{index}")
             self.targetname = t.target
@@ -111,16 +104,6 @@ class MoveHandler :
             # pyautogui.keyDown('e')
             time.sleep(1.5)
         
-        
-            # pyautogui.keyUp('e')
-            # if index == len(self.targetPathList) - 1 :
-            #     print("已到目的地")
-            #     return
-            # else :
-            #     print("還有下一個目標")
-            #     while  1 :
-            #         if not self.targetname == t.target :
-            #             break
            
     def move(self) :
         t = threading.Thread(target=self.getDist)
@@ -209,6 +192,7 @@ class MoveHandler :
         self.current = end_target
         print(f"當前位子{self.current}")
         if self.targetprocess.search :
+            print(f"尋找目標{self.targetprocess.search}")
             self.search()
 
         return
@@ -249,4 +233,5 @@ if __name__ == "__main__" :
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
     m.runTargetProcess()
+    # threading.Event
     # m.move()

@@ -69,13 +69,24 @@ def testRun(show):
 def testCallback( run ,callback) :
     for r in range(1,run) :
         callback(r)
+def methodT1(a ,*b , **c) :
+    print(a)
+    print(b)
+    print(c)
 
 if __name__ == "__main__" :
-    testCallback(3,callback =testRun)
-    keyboard.add_hotkey('e', lambda: testRun("got key e"))
+    # testCallback(3,callback =testRun)
+    # keyboard.add_hotkey('e', lambda: testRun("got key e"))
+    a = 4
 
-    while 1 :
-        a = 1
+    print(f'abc{a}')
+    print(r"ab$$$")
+    list = [1,4,6]
+    print(methodT1("d"))
+    print(methodT1("d",list,c = "g" , h = "r"))
+
+    # while 1 :
+    #     a = 1
     # zero = (0,0)
     # a_pos = (640,360)
     # b_pos = (54,80)

@@ -33,6 +33,16 @@ def found_pos(img , confidence):
             return _pos
         time.sleep(0.05)
     return None
+def found_pos(img , confidence ,timeout):
+    start = time.time()
+    while (time.time() - start) < timeout:
+        _pos = pyautogui.locateCenterOnScreen(
+            f'{img}', grayscale=True, confidence=confidence)
+
+        if _pos:
+            return _pos
+        time.sleep(0.05)
+    return None
 
 def found_pos_list(imgs , confidence):
     start = time.time()
@@ -44,7 +54,7 @@ def found_pos_list(imgs , confidence):
                 return _pos
         time.sleep(0.05)
     return None
-    
+
 def found_center():
     print("尋找D2視窗中心")
     while 1:
