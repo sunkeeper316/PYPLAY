@@ -1,4 +1,6 @@
 import math
+import keyboard
+import os
 # import displaymap
 # import cv2
 # import numpy as np
@@ -38,7 +40,23 @@ def getPosition() :
         # pyautogui.press('e')
         time.sleep(0.5)
     
-    
+def main() :
+    while 1 :
+        if keyboard.is_pressed('e') :
+            print("keyboard press e")
+            # play[1] += 1
+            # print(play)
+        elif keyboard.is_pressed('w') :
+            print("keyboard press w")
+            # play[0] += 1
+            # print(play)
+        elif keyboard.is_pressed('d') :
+            print("keyboard press d")
+            
+            # print(f"d show :{Player.dist}")
+        elif keyboard.is_pressed('q') :
+            os._exit(1)
+        time.sleep(0.1)   
 
 
 def getMouse() :
@@ -168,4 +186,4 @@ if __name__ == "__main__" :
 #   avg = cv2.convertScaleAbs(avg_float)
 
 # cap.release()
-# cv2.destroyAllWindows()
+# cv2.destroyAllWindows()v

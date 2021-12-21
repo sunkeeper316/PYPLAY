@@ -1,4 +1,16 @@
 
+class TargetProcess :
+    def __init__(self ,start_target , poslist , end_target) :
+        self.start_target = start_target
+        self.poslist = poslist
+        self.end_target = end_target
+    
+    @staticmethod
+    def a5_redDoor():
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = [(-475 , 340),(0 , 225),(-500 , 330),(0 , 210) , (0 , 50),(-500 , -90)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        return TargetProcess(start_target , poslist , end_target)
 
 class TargetPath :
     def __init__(self , target , postion , checkpostion = "" ,direction = "") :
@@ -25,3 +37,18 @@ class TargetPath :
         t3 = TargetPath("assets/templates/a5_town/a5_town_7.png",postion = (-260 , 200))
         t4 = TargetPath("assets/templates/a5_town/a5_town_7.png",postion = (580 , 160))
         return [t1 , t2 , t3 , t4 ]
+
+class TargetPos :
+#找尋目標而且確認目標應該距離當前位子座標
+    def __init__(self , target , postion) :
+        self.target = target
+        self.postion = postion
+
+    @staticmethod
+
+    def a5_town_0() :
+        return TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+
+    
+        
+    

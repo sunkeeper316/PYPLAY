@@ -7,9 +7,10 @@ import pyautogui
 import direction
 from targetpath import TargetPath
 
-class MoveHandler :
-
-    def __init__(self  ,targetname = "",targetPathList = [], target = pos.found_d2rwin() , center = pos.found_d2rwin()  ):
+class MoveHandler : 
+    #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
+    #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
+    def __init__(self  ,targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
         self.center = center
         self.target = target
         self.targetname = targetname
@@ -18,11 +19,11 @@ class MoveHandler :
         self.targetPathList = targetPathList
         self.direction = None
 
-    def getDist(self) :
+    def getDist(self) : #取得距離另外線程處理
         if self.targetname == "" :
             return
         while 1 :
-            self.center = pos.found_d2rwin()
+            self.center = pos.found_center()
             print(f"target {self.target}")
             print(f"center {self.center}")
             if self.direction :
@@ -73,7 +74,7 @@ class MoveHandler :
                 
             time.sleep(0.05)
         return
-    def moveTargetPathList(self) :
+    def moveTargetPathList(self) : #路徑實行
         
         # self.target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
 
@@ -81,12 +82,12 @@ class MoveHandler :
         # s.enter(2,1,)
         # t = threading.Thread(target=self.getDist)
         # t.start()
-        center = pos.found_center()
+        # center = pos.found_center()
         for index , t in enumerate(self.targetPathList)  :
             print(f"index{index}")
             self.targetname = t.target
-            pyautogui.moveTo(center)
-            time.sleep(0.3)
+            pyautogui.moveTo(self.center)
+            time.sleep(0.1)
             pyautogui.moveRel(t.postion)
             pyautogui.press('e')
             # direction.getDirection(t.direction)
@@ -118,7 +119,6 @@ class MoveHandler :
         t.start()
         
         while 1 :
-            
             
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
@@ -170,12 +170,16 @@ class MoveHandler :
         pyautogui.click()
         return
 
-
-
-
-
-
-
+    def adjust(self ,target) :
+        cur_pos = pos.found_pos(target.target)
+        if not cur_pos :
+            _pos = target.postion
+            adjust_x =  _pos[0] - cur_pos[0] 
+            adjust_y =  _pos[1] - cur_pos[1] 
+            pyautogui.moveTo((adjust_x , adjust_y))
+            pyautogui.press('e')
+        
+        return
 
 if __name__ == "__main__" : 
 
