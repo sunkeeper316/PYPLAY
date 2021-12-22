@@ -1,13 +1,14 @@
 import time
 
 class TargetProcess :
-    def __init__(self ,start_target , poslist , end_target , search = None , atk = False ,teleport = False ) :
+    def __init__(self ,start_target , poslist , end_target = None, search = None , atk = False ,teleport = False ) :
         self.start_target = start_target
         self.poslist = poslist
         self.end_target = end_target
         self.search = search
         self.atk = atk
         self.teleport = teleport
+        
     
     @staticmethod
     def a5_start_to_redDoor():
@@ -20,11 +21,11 @@ class TargetProcess :
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         poslist = [(-580,-150),(170,-120)]
         # time.sleep(5)
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16))
-        return TargetProcess(start_target , poslist , end_target , search = "assets/npc/malah/malah_name_tag_white.png")
+        # end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16))
+        return TargetProcess(start_target , poslist  , search = "assets/npc/malah/malah_name_tag_white.png")
     @staticmethod
     def a5_malah_to_start():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16))
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16) , adjust = 40)
         poslist = [(-170,120),(580,150)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         return TargetProcess(start_target , poslist , end_target )
@@ -99,10 +100,10 @@ class TargetPath :
 
 class TargetPos :
 #找尋目標而且確認目標應該距離當前位子座標
-    def __init__(self , target , postion) :
+    def __init__(self , target , postion , adjust = 30) :
         self.target = target
         self.postion = postion
-
+        self.adjust = adjust
     @staticmethod
 
     def a5_town_0() :

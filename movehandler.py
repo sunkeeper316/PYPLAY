@@ -23,7 +23,7 @@ class MoveHandler :
         self.teleport = teleport 
 
 
-    def adjust(self ,target , atk = False , teleport = False) :
+    def adjust(self ,target ) :
         print("修正目的地位子")
         while 1 :
             _pos = pos.found_pos(target.target , .7)
@@ -35,18 +35,12 @@ class MoveHandler :
                 adjust_x =  current_pos[0] - target.postion[0]
                 adjust_y =  current_pos[1] - target.postion[1]
                 print(f"adjust_ {(adjust_x , adjust_y)}")
-                if adjust_x > 30 or adjust_y > 30 or adjust_x < -30 or adjust_y < -30:
+                if adjust_x > target.adjust or adjust_y > target.adjust or adjust_x < -target.adjust or adjust_y < -target.adjust:
                     pyautogui.moveTo(self.center)
                     time.sleep(0.3)
                     pyautogui.moveRel((adjust_x , adjust_y))
                     time.sleep(0.3)
-                    if teleport :
-                        pyautogui.press('f3')
-                    else :
-                        pyautogui.press('e')
-                    time.sleep(0.3)
-                    if atk :
-                        pyautogui.press('f1')
+                    pyautogui.press('e')
                     # time.sleep(0.3)
                     # self.test(target)
                 else :
@@ -73,13 +67,13 @@ class MoveHandler :
                 print(f"adjust_ {(adjust_x , adjust_y)}")
                 if adjust_x > 30 or adjust_y > 30 or adjust_x < -30 or adjust_y < -30:
                     pyautogui.moveTo(self.center)
-                    time.sleep(0.05)
+                    time.sleep(0.1)
                     pyautogui.moveRel((adjust_x , adjust_y))
-                    time.sleep(0.05)
+                    time.sleep(0.1)
                     pyautogui.press('f3')
-                    time.sleep(0.05)
+                    time.sleep(0.1)
                     pyautogui.press('f1')
-                    time.sleep(0.05)
+                    time.sleep(0.1)
                     pyautogui.press('f1')
                     # time.sleep(0.3)
                     # self.test(target)
@@ -88,15 +82,16 @@ class MoveHandler :
                     break
             else :
                 pyautogui.moveTo(self.center)
-                time.sleep(0.05)
+                time.sleep(0.1)
                 pyautogui.moveRel((random.randint(-50,50) , random.randint(-50,50)))
-                time.sleep(0.05)
+                time.sleep(0.1)
                 pyautogui.press('f3')
-                time.sleep(0.05)
+                time.sleep(0.1)
                 pyautogui.press('f1')
-                time.sleep(0.05)
+                time.sleep(0.1)
                 pyautogui.press('f1')
             time.sleep(0.05)
+        return True
 
     def test(self,target) :
         _pos = pos.found_pos(target.target , .7)
@@ -114,38 +109,38 @@ class MoveHandler :
         
         while 1 :
             
-            pyautogui.moveRel((count , 0) , duration = 0.15)
+            pyautogui.moveRel((count , 0) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , count) , duration = 0.15)
+            pyautogui.moveRel((0 , count) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((-count , 0) , duration = 0.15)
+            pyautogui.moveRel((-count , 0) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((-count , 0) , duration = 0.15)
+            pyautogui.moveRel((-count , 0) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , -count) , duration = 0.15)
+            pyautogui.moveRel((0 , -count) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , -count) , duration = 0.15)
+            pyautogui.moveRel((0 , -count) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((count , 0) , duration = 0.15)
+            pyautogui.moveRel((count , 0) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((count , 0) , duration = 0.15)
+            pyautogui.moveRel((count , 0) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , count) , duration = 0.15)
+            pyautogui.moveRel((0 , count) , duration = 0.2)
             if self.isSearch :
                 break
-            pyautogui.moveTo(self.center , duration = 0.15)
+            pyautogui.moveTo(self.center , duration = 0.2)
             if self.isSearch :
                 break
             count += 30
-            if count > 200 :
+            if count > 150 :
                 count = 60
                 
         time.sleep(1)
@@ -192,16 +187,16 @@ class MoveHandler :
                 pyautogui.press('e')
                 time.sleep(1.5)
             
-
-        end_target = self.targetprocess.end_target
-        print("end_target")
-        if self.targetprocess.atk :
-            if not self.atk_adjust(end_target) :
-                return False
-        else :
-            if not self.adjust(end_target ) :
-                return False
-        self.current = end_target
+        if self.targetprocess.end_target :
+            end_target = self.targetprocess.end_target
+            print("end_target")
+            if self.targetprocess.atk :
+                if not self.atk_adjust(end_target) :
+                    return False
+            else :
+                if not self.adjust(end_target ) :
+                    return False
+            self.current = end_target
         print(f"當前位子{self.current}")
         if self.targetprocess.search :
             print(f"尋找目標{self.targetprocess.search}")

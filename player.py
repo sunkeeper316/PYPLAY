@@ -51,9 +51,11 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
                 continue
             else :
                 print('卡住重開')
+                
                 self.end_game()
             
-        self.moveHandler.atk( 10 ,'f1' ,0.5)
+        self.moveHandler.atk( 10 ,'f1' ,0.1)
+        time.sleep(2)
         self.end_game()
 
             
