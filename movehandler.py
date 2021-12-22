@@ -163,7 +163,7 @@ class MoveHandler :
         start = time.time()
         while ( time.time() - start ) > timeout :
             for item in items :
-                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )e
                 if a_pos :
                     pyautogui.moveTo()
                     time.sleep(0.1)

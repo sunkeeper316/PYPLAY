@@ -15,13 +15,13 @@ class TargetProcess :
     @staticmethod
     def a5_start_to_malah():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        poslist = [(-580,-150),(250,-200)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
+        poslist = [(-580,-150),(210,-200)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (241,88))
         return TargetProcess(start_target , poslist , end_target , "assets/npc/malah/malah_name_tag_white.png")
     @staticmethod
     def a5_malah_to_start():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
-        poslist = [(-250,200),(580,150)]
+        poslist = [(-210,200),(580,150)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         return TargetProcess(start_target , poslist , end_target)
     @staticmethod
