@@ -1,3 +1,4 @@
+from tkinter.constants import NO
 from pyscreeze import center
 import pos
 import threading
@@ -8,22 +9,16 @@ import pyautogui
 import direction
 from targetpath import TargetPath, TargetProcess ,TargetPos
 
-class MoveHandler : 
+class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
     # TargetProcess 流程來執行整體移動 teleport 是否能傳送
-    def __init__(self  ,targetprocess,teleport = False,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
+    def __init__(self  ,targetprocess = None, teleport = False,current = "" , center = pos.found_center()):
         self.center = center
         self.targetprocess = targetprocess
-        self.target = target
-        self.targetname = targetname
-        self.dist = -1
         self.isSearch = False
-        self.targetPathList = targetPathList
-        self.direction = None
         self.current = current
         self.teleport = teleport 
-
 
     def adjust(self ,target) :
         print("修正目的地位子")
@@ -52,58 +47,51 @@ class MoveHandler :
             time.sleep(0.5)
         return
 
-    def test(self,target) :
-        _pos = pos.found_pos(target.target , .7)
-        print(f"test center{self.center}")
-        print(f"test _pos:{_pos}")
-        pyautogui.moveTo(_pos)
-        print((_pos[0]-self.center[0],_pos[1]-self.center[1]))
-
-    def search(self) :
+    def search(self ,timeout = 60) :
         self.isSearch = False
         count = 60
         pyautogui.moveTo(self.center)
         t = threading.Thread(target=self.getTarget)
         t.start()
-        
-        while 1 :
+        start = time.time()
+        while (time.time() - start) < timeout :
             
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((0 , count) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((-count , 0) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((-count , 0) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((0 , -count) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((0 , -count) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveRel((0 , count) , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             pyautogui.moveTo(self.center , duration = 0.15)
             if self.isSearch :
-                break
+                return True
             count += 30
             if count > 200 :
                 count = 60
                 
         time.sleep(1)
-        return
+        return False
     def getTarget(self) :
         print("sreach")
         newpos = pos.found_pos(self.targetprocess.search , .7)
@@ -150,7 +138,16 @@ class MoveHandler :
             self.search()
         time.sleep(0.3)
         return True
+    def switchweapon() :
+        time.sleep(0.3)
+        pyautogui.press('f5')
+        time.sleep(0.3)
+        pyautogui.press('f6')
+        time.sleep(0.3)
+        pyautogui.press('f7')
+        time.sleep(0.3)
     def atk(self,timeout , key , interval) :
+        print("攻擊")
         start = time.time()
         while ( time.time() - start ) > timeout :
             pyautogui.press(f'{key}')
@@ -163,7 +160,7 @@ class MoveHandler :
         start = time.time()
         while ( time.time() - start ) > timeout :
             for item in items :
-                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )e
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )
                 if a_pos :
                     pyautogui.moveTo()
                     time.sleep(0.1)
@@ -172,6 +169,13 @@ class MoveHandler :
             time.sleep(interval)
     def putstore() :
         return
+
+    def test(self,target) :
+        _pos = pos.found_pos(target.target , .7)
+        print(f"test center{self.center}")
+        print(f"test _pos:{_pos}")
+        pyautogui.moveTo(_pos)
+        print((_pos[0]-self.center[0],_pos[1]-self.center[1]))
 
 
 
@@ -197,6 +201,7 @@ if __name__ == "__main__" :
         if t2 :
             m.targetprocess = TargetProcess.a5_start_to_redDoor()
             t3 = m.runTargetProcess()
+            m.atk(20 , 'f1' , 0.5)
     # threading.Event
     # m.move()
 
