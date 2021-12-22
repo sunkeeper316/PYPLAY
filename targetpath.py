@@ -1,3 +1,4 @@
+import time
 
 class TargetProcess :
     def __init__(self ,start_target , poslist , end_target , search = None , atk = False ,teleport = False ) :
@@ -17,20 +18,21 @@ class TargetProcess :
     @staticmethod
     def a5_start_to_malah():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        poslist = [(-580,-150),(220,-170)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (321,118))
+        poslist = [(-580,-150),(170,-120)]
+        # time.sleep(5)
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16))
         return TargetProcess(start_target , poslist , end_target , search = "assets/npc/malah/malah_name_tag_white.png")
     @staticmethod
     def a5_malah_to_start():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (321,118))
-        poslist = [(-220,170),(580,150)]
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (409,16))
+        poslist = [(-170,120),(580,150)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         return TargetProcess(start_target , poslist , end_target )
     @staticmethod
     def a5_reddoor_to_pindle():
         start_target = TargetPos("assets/templates/pindle/pindle_10.png" , (-11,-31))
         poslist = [(437,-270),(437,-270),(437,-270)]
-        end_target = TargetPos("assets/templates/pindle/pindle_8.png" , (51,135))
+        end_target = TargetPos("assets/templates/pindle/pindle_8.png" , (162,-177))
         return TargetProcess(start_target , poslist , end_target, atk=True , teleport = True)
     @staticmethod
     def a5_start_to_store():

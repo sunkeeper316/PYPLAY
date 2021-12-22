@@ -27,7 +27,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         time.sleep(0.3)
         pyautogui.click()
         # if difficulty == "norm"
-        difficulty_pos = pos.found_pos(self.difficulty , .7)
+        difficulty_pos = pos.found_pos(self.difficulty , .8)
         pyautogui.moveTo(difficulty_pos)
         time.sleep(0.3)
         pyautogui.click()
@@ -49,8 +49,13 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
             if result :
                 print('下一個流程')
                 continue
+            else :
+                print('卡住重開')
+                self.end_game()
             
-        self.moveHandler.atk( 20 ,'f1' ,0.5)
+        self.moveHandler.atk( 10 ,'f1' ,0.5)
+        self.end_game()
+
             
 
     def checkTask(self) :
@@ -70,17 +75,20 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         time.sleep(0.1)
         pyautogui.keyDown('esc')
         time.sleep(0.1)
-        exit_pos = pos.found_pos_list(["templates/save_and_exit_highlight","templates/save_and_exit_no_highlight"] , .7)
+        exit_pos = pos.found_pos("assets/templates/save_and_exit_highlight.png" , .8)
         pyautogui.moveTo(exit_pos)
         time.sleep(0.1)
         pyautogui.click()
+        time.sleep(0.1)
+        self.start()
     
     @staticmethod
     def a5_reddoor_process() :
-        start = TargetProcess.a5_malah_to_start()
-        to_malah = TargetProcess.a5_malah_to_start()
-        malah_back = TargetProcess.a5_malah_to_start()
-        return []
+        p1 = TargetProcess.a5_start_to_malah()
+        p2 = TargetProcess.a5_malah_to_start()
+        p3 = TargetProcess.a5_start_to_redDoor()
+        p4 = TargetProcess.a5_reddoor_to_pindle()
+        return [p1 , p2 , p3 , p4]
 
 # assets/templates/hell_btn.png
 # assets/templates/nightmare_btn.png

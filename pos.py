@@ -33,7 +33,7 @@ def found_start():
 #             return _pos
 #         time.sleep(0.05)
 #     return None
-def found_pos(img , confidence ,timeout = 60):
+def found_pos(img , confidence ,timeout = 20):
     start = time.time()
     while (time.time() - start) < timeout:
         _pos = pyautogui.locateCenterOnScreen(
@@ -48,8 +48,7 @@ def found_pos_list(imgs , confidence):
     start = time.time()
     while (time.time() - start) < 20:
         for img in imgs :
-            _pos = pyautogui.locateCenterOnScreen(
-            f'{img}', grayscale=True, confidence=confidence)
+            _pos = pyautogui.locateCenterOnScreen(f'{img}', grayscale=True, confidence=confidence)
             if _pos:
                 return _pos
         time.sleep(0.05)

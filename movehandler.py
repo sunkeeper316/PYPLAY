@@ -7,19 +7,17 @@ import math
 import pyautogui
 import direction
 from targetpath import TargetPath, TargetProcess ,TargetPos
+import random
 
 class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
     # TargetProcess 流程來執行整體移動 teleport 是否能傳送
-    def __init__(self  ,targetprocess,teleport = False,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
+    def __init__(self  ,targetprocess = None,teleport = False,current = "" , center = pos.found_center()):
         self.center = center
         self.targetprocess = targetprocess
-        self.target = target
-        self.targetname = targetname
-        self.dist = -1
+        
         self.isSearch = False
-        self.targetPathList = targetPathList
         self.direction = None
         self.current = current
         self.teleport = teleport 
@@ -54,9 +52,51 @@ class MoveHandler :
                 else :
                     print("差距過小不需要修正")
                     break
+            else :
+                print("卡住了")
+                return False
             
             time.sleep(0.5)
-        return
+        return True
+    def atk_adjust(self ,target ) :
+        print("修正目的地位子")
+        while 1 :
+            _pos = pyautogui.locateCenterOnScreen(target.target , grayscale=True, confidence=.7)
+            # _pos = pos.found_pos(target.target , .7)
+            time.sleep(0.1)
+            if  _pos :
+                current_pos = (_pos[0]-self.center[0],_pos[1]-self.center[1])
+                print(f"_pos:{_pos}")
+                print(f"center{self.center}")
+                adjust_x =  current_pos[0] - target.postion[0]
+                adjust_y =  current_pos[1] - target.postion[1]
+                print(f"adjust_ {(adjust_x , adjust_y)}")
+                if adjust_x > 30 or adjust_y > 30 or adjust_x < -30 or adjust_y < -30:
+                    pyautogui.moveTo(self.center)
+                    time.sleep(0.05)
+                    pyautogui.moveRel((adjust_x , adjust_y))
+                    time.sleep(0.05)
+                    pyautogui.press('f3')
+                    time.sleep(0.05)
+                    pyautogui.press('f1')
+                    time.sleep(0.05)
+                    pyautogui.press('f1')
+                    # time.sleep(0.3)
+                    # self.test(target)
+                else :
+                    print("差距過小不需要修正")
+                    break
+            else :
+                pyautogui.moveTo(self.center)
+                time.sleep(0.05)
+                pyautogui.moveRel((random.randint(-50,50) , random.randint(-50,50)))
+                time.sleep(0.05)
+                pyautogui.press('f3')
+                time.sleep(0.05)
+                pyautogui.press('f1')
+                time.sleep(0.05)
+                pyautogui.press('f1')
+            time.sleep(0.05)
 
     def test(self,target) :
         _pos = pos.found_pos(target.target , .7)
@@ -131,12 +171,15 @@ class MoveHandler :
         
     #     return
 
-    def runTargetProcess(self , teleport = False) :
+    def runTargetProcess(self ) :
         if self.targetprocess.atk :
             pyautogui.press('f5')
+            time.sleep(0.05)
+            pyautogui.press('f2')
         start_target = self.targetprocess.start_target
         print("start_target")
-        self.adjust(start_target)
+        if not self.adjust(start_target) :
+            return False
         self.current = start_target
         print(f"當前位子{self.current}")
         for index , pos in enumerate(self.targetprocess.poslist) :
@@ -152,8 +195,12 @@ class MoveHandler :
 
         end_target = self.targetprocess.end_target
         print("end_target")
-        self.adjust(end_target ,atk= self.targetprocess.atk, teleport= self.targetprocess.teleport)
-
+        if self.targetprocess.atk :
+            if not self.atk_adjust(end_target) :
+                return False
+        else :
+            if not self.adjust(end_target ) :
+                return False
         self.current = end_target
         print(f"當前位子{self.current}")
         if self.targetprocess.search :
@@ -168,6 +215,8 @@ class MoveHandler :
             print(time.time() - start)
             pyautogui.press(f'{key}')
             time.sleep(interval)
+        time.sleep(0.05)
+        pyautogui.press('f6')
         # self.pickitems(10,0.1)
     def pickitems(self,timeout , interval) :
         pyautogui.press('alt')
@@ -193,12 +242,14 @@ if __name__ == "__main__" :
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    testTargetPos = TargetPos("assets/templates/pindle/pindle_8.png" , (51,135))
+    testTargetPos = TargetPos("assets/templates/a5_town/a5_town_0.png" , (51,135))
    
-    # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor  assets/templates/pindle/pindle_8.png
+    # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor  assets/templates/pindle/pindle_8.pnge
     
     # m.adjust(testTargetPos)
-    # m = MoveHandler(targetPathList= TargetPath.a5_malah())
+    m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
+    # m.runTargetProcess()
+    m.test(testTargetPos)
     # malah_name_tag_white   
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
@@ -220,18 +271,20 @@ if __name__ == "__main__" :
     #             t4 = m.runTargetProcess()
     #             if t4 :
     #                 print("t4 ok")
-    #                 m.atk(20 , 'f1' , 0.2)
+    #                 m.atk(10 , 'f1' , 0.05)
+    #                 time.sleep(0.05)
+    #                 pyautogui.press('f6')
 
-    m = MoveHandler(targetprocess= TargetProcess.a5_reddoor_to_pindle())
+    # m = MoveHandler(targetprocess= TargetProcess.a5_reddoor_to_pindle())
     # t4 = m.runTargetProcess()
     # if t4 :
     #     print("t4 ok")
-    #     m.atk(20 , 'f1' , 0.2)
+    #     m.atk(5 , 'f1' , 0.2)
     
     # m.atk(20 , 'f1' , 0.2)
     # threading.Event
     # m.move()
-    m.test(testTargetPos)
+    
 
 
     # def getDist(self) : #取得距離另外線程處理
