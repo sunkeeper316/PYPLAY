@@ -1,4 +1,3 @@
-from tkinter.constants import NO
 from pyscreeze import center
 import pos
 import threading
@@ -9,18 +8,24 @@ import pyautogui
 import direction
 from targetpath import TargetPath, TargetProcess ,TargetPos
 
-class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
+class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
     # TargetProcess 流程來執行整體移動 teleport 是否能傳送
-    def __init__(self  ,targetprocess = None, teleport = False,current = "" , center = pos.found_center()):
+    def __init__(self  ,targetprocess,teleport = False,current = "",targetname = "",targetPathList = [], target = (0,0) , center = pos.found_center()):
         self.center = center
         self.targetprocess = targetprocess
+        self.target = target
+        self.targetname = targetname
+        self.dist = -1
         self.isSearch = False
+        self.targetPathList = targetPathList
+        self.direction = None
         self.current = current
         self.teleport = teleport 
 
-    def adjust(self ,target) :
+
+    def adjust(self ,target , atk = False , teleport = False) :
         print("修正目的地位子")
         while 1 :
             _pos = pos.found_pos(target.target , .7)
@@ -37,7 +42,13 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
                     time.sleep(0.3)
                     pyautogui.moveRel((adjust_x , adjust_y))
                     time.sleep(0.3)
-                    pyautogui.press('e')
+                    if teleport :
+                        pyautogui.press('f3')
+                    else :
+                        pyautogui.press('e')
+                    time.sleep(0.3)
+                    if atk :
+                        pyautogui.press('f1')
                     # time.sleep(0.3)
                     # self.test(target)
                 else :
@@ -47,51 +58,58 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
             time.sleep(0.5)
         return
 
-    def search(self ,timeout = 60) :
+    def test(self,target) :
+        _pos = pos.found_pos(target.target , .7)
+        print(f"test center{self.center}")
+        print(f"test _pos:{_pos}")
+        pyautogui.moveTo(_pos)
+        print((_pos[0]-self.center[0],_pos[1]-self.center[1]))
+
+    def search(self) :
         self.isSearch = False
         count = 60
         pyautogui.moveTo(self.center)
         t = threading.Thread(target=self.getTarget)
         t.start()
-        start = time.time()
-        while (time.time() - start) < timeout :
+        
+        while 1 :
             
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((0 , count) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((-count , 0) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((-count , 0) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((0 , -count) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((0 , -count) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((count , 0) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveRel((0 , count) , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             pyautogui.moveTo(self.center , duration = 0.15)
             if self.isSearch :
-                return True
+                break
             count += 30
             if count > 200 :
                 count = 60
                 
         time.sleep(1)
-        return False
+        return
     def getTarget(self) :
         print("sreach")
         newpos = pos.found_pos(self.targetprocess.search , .7)
@@ -114,7 +132,10 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
     #     return
 
     def runTargetProcess(self , teleport = False) :
+        if self.targetprocess.atk :
+            pyautogui.press('f5')
         start_target = self.targetprocess.start_target
+        print("start_target")
         self.adjust(start_target)
         self.current = start_target
         print(f"當前位子{self.current}")
@@ -122,13 +143,16 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
             pyautogui.moveTo(self.center)
             time.sleep(0.1)
             pyautogui.moveRel(pos)
-            if teleport :
+            if self.targetprocess.teleport :
                 pyautogui.press('f3')
-            pyautogui.press('e')
-            time.sleep(1.5)
+            else :
+                pyautogui.press('e')
+                time.sleep(1.5)
+            
 
         end_target = self.targetprocess.end_target
-        self.adjust(end_target)
+        print("end_target")
+        self.adjust(end_target ,atk= self.targetprocess.atk, teleport= self.targetprocess.teleport)
 
         self.current = end_target
         print(f"當前位子{self.current}")
@@ -138,21 +162,13 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
             self.search()
         time.sleep(0.3)
         return True
-    def switchweapon() :
-        time.sleep(0.3)
-        pyautogui.press('f5')
-        time.sleep(0.3)
-        pyautogui.press('f6')
-        time.sleep(0.3)
-        pyautogui.press('f7')
-        time.sleep(0.3)
     def atk(self,timeout , key , interval) :
-        print("攻擊")
         start = time.time()
-        while ( time.time() - start ) > timeout :
+        while ( time.time() - start ) < timeout :
+            print(time.time() - start)
             pyautogui.press(f'{key}')
             time.sleep(interval)
-        self.pickitems(10,0.1)
+        # self.pickitems(10,0.1)
     def pickitems(self,timeout , interval) :
         pyautogui.press('alt')
         time.sleep(0.5)
@@ -170,13 +186,6 @@ class MoveHandler : #用moveHandler控制遊戲內路徑跟操作
     def putstore() :
         return
 
-    def test(self,target) :
-        _pos = pos.found_pos(target.target , .7)
-        print(f"test center{self.center}")
-        print(f"test _pos:{_pos}")
-        pyautogui.moveTo(_pos)
-        print((_pos[0]-self.center[0],_pos[1]-self.center[1]))
-
 
 
 if __name__ == "__main__" : 
@@ -184,27 +193,45 @@ if __name__ == "__main__" :
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    testTargetPos = TargetPos("assets/templates/a5_town/a5_town_0.png" , (51,135))
-    m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
-    # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor
-    # m.test(testTargetPos)
+    testTargetPos = TargetPos("assets/templates/pindle/pindle_8.png" , (51,135))
+   
+    # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor  assets/templates/pindle/pindle_8.png
+    
     # m.adjust(testTargetPos)
     # m = MoveHandler(targetPathList= TargetPath.a5_malah())
     # malah_name_tag_white   
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
-    t1 = m.runTargetProcess()
-    if t1 :
-        
-        m.targetprocess = TargetProcess.a5_malah_to_start()
-        t2 = m.runTargetProcess()
-        if t2 :
-            m.targetprocess = TargetProcess.a5_start_to_redDoor()
-            t3 = m.runTargetProcess()
-            m.atk(20 , 'f1' , 0.5)
+
+    # m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
+    # t1 = m.runTargetProcess()
+    # if t1 :
+    #     print("t1 ok")
+    #     m.targetprocess = TargetProcess.a5_malah_to_start()
+    #     t2 = m.runTargetProcess()
+    #     if t2 :
+    #         print("t2 ok")
+    #         m.targetprocess = TargetProcess.a5_start_to_redDoor()
+    #         t3 = m.runTargetProcess()
+    #         if t3 :
+    #             print("t3 ok")
+    #             m.targetprocess = TargetProcess.a5_reddoor_to_pindle()
+
+    #             t4 = m.runTargetProcess()
+    #             if t4 :
+    #                 print("t4 ok")
+    #                 m.atk(20 , 'f1' , 0.2)
+
+    m = MoveHandler(targetprocess= TargetProcess.a5_reddoor_to_pindle())
+    # t4 = m.runTargetProcess()
+    # if t4 :
+    #     print("t4 ok")
+    #     m.atk(20 , 'f1' , 0.2)
+    
+    # m.atk(20 , 'f1' , 0.2)
     # threading.Event
     # m.move()
-
+    m.test(testTargetPos)
 
 
     # def getDist(self) : #取得距離另外線程處理

@@ -1,36 +1,37 @@
 
 class TargetProcess :
-    def __init__(self ,start_target , poslist , end_target , search = None , atk = False) :
+    def __init__(self ,start_target , poslist , end_target , search = None , atk = False ,teleport = False ) :
         self.start_target = start_target
         self.poslist = poslist
         self.end_target = end_target
         self.search = search
         self.atk = atk
+        self.teleport = teleport
     
     @staticmethod
     def a5_start_to_redDoor():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         poslist = [(-475 , 340),(0 , 225),(-500 , 330),(0 , 210) , (0 , 120),(-500 , -90)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0))
-        return TargetProcess(start_target , poslist , end_target , "assets/templates/a5_red_portal_text.png")
+        return TargetProcess(start_target , poslist , end_target , search = "assets/templates/a5_red_portal_text.png")
     @staticmethod
     def a5_start_to_malah():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        poslist = [(-580,-150),(250,-200)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
-        return TargetProcess(start_target , poslist , end_target , "assets/npc/malah/malah_name_tag_white.png")
+        poslist = [(-580,-150),(220,-170)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (321,118))
+        return TargetProcess(start_target , poslist , end_target , search = "assets/npc/malah/malah_name_tag_white.png")
     @staticmethod
     def a5_malah_to_start():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
-        poslist = [(-250,200),(580,150)]
+        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (321,118))
+        poslist = [(-220,170),(580,150)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        return TargetProcess(start_target , poslist , end_target)
+        return TargetProcess(start_target , poslist , end_target )
     @staticmethod
     def a5_reddoor_to_pindle():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (291,88))
-        poslist = [(-250,200),(580,150)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        return TargetProcess(start_target , poslist , end_target)
+        start_target = TargetPos("assets/templates/pindle/pindle_10.png" , (-11,-31))
+        poslist = [(437,-270),(437,-270),(437,-270)]
+        end_target = TargetPos("assets/templates/pindle/pindle_8.png" , (51,135))
+        return TargetProcess(start_target , poslist , end_target, atk=True , teleport = True)
     @staticmethod
     def a5_start_to_store():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))

@@ -56,13 +56,13 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
     def checkTask(self) :
         Task.checkDisPlay()
 
-    def moveSouth(self) :
-        pyautogui.moveTo(pos.wincenter)
-        pyautogui.moveRel(None , 100)
-        pyautogui.keyDown('e')
-        time.sleep(0.03)
-        pyautogui.keyUp()
-        return
+    # def moveSouth(self) :
+    #     pyautogui.moveTo(pos.wincenter)
+    #     pyautogui.moveRel(None , 100)
+    #     pyautogui.keyDown('e')
+    #     time.sleep(0.03)
+    #     pyautogui.keyUp()
+    #     return
 
     
     def end_game(self) :

@@ -93,7 +93,7 @@ def checkFilesImg(files) :
 if __name__ == "__main__" :
     
     allImgs = []
-    files = read_directory("tests/")
+    files = read_directory("assets/")
 
     imgs , _files = checkFilesImg(files)
     # print(_files)
@@ -111,7 +111,7 @@ if __name__ == "__main__" :
     print("allImgs-----")
     print(allImgs)
 
-    with open("tests.txt" , 'w') as f :
+    with open("allImgs.txt" , 'w') as f :
         for img in allImgs :
             f.write(f"{img}\n")
         

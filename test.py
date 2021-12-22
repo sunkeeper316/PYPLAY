@@ -77,13 +77,13 @@ def methodT1(a ,*b , **c) :
 if __name__ == "__main__" :
     # testCallback(3,callback =testRun)
     # keyboard.add_hotkey('e', lambda: testRun("got key e"))
-    a = 4
+    # a = 4
 
-    print(f'abc{a}')
-    print(r"ab$$$")
-    list = [1,4,6]
-    print(methodT1("d"))
-    print(methodT1("d",list,c = "g" , h = "r"))
+    # print(f'abc{a}')
+    # print(r"ab$$$")
+    # list = [1,4,6]
+    # print(methodT1("d"))
+    # print(methodT1("d",list,c = "g" , h = "r"))
 
     # while 1 :
     #     a = 1
@@ -96,8 +96,8 @@ if __name__ == "__main__" :
     # print(f"a_pos 距離 {math.dist(a_pos,zero)}")
     # print(math.hypot(a_pos[0] ,a_pos[1] ))
     # print(math.hypot(b_pos[0] ,b_pos[1] ))
-
-    # getMouse()
+    # getPosition()
+    getMouse()
 
     # center = found_zero()
     # while 1 :
