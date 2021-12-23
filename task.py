@@ -5,7 +5,7 @@ import displaymap
 from pyscreeze import center
 import pos
 import threading
-from pos import wincenter
+
 from queue import Queue
 from displaymap import DisplayMap, ImgPath
 

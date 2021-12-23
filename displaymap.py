@@ -73,7 +73,7 @@ def read_directory(directory_name):
          # 這如果用於存儲所有圖像路徑
         # array_of_img.append(img) 如果要數據
         #print(img)
-            print(f"{directory_name}{filename}") 
+            # print(f"{directory_name}{filename}") 
             array_of_img.append(f"{directory_name}{filename}")
         # print(array_of_img)   
     return array_of_img

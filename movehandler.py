@@ -54,6 +54,7 @@ class MoveHandler :
         return True
     def atk_adjust(self ,target ) :
         print("修正目的地位子")
+        start = time.time()
         while 1 :
             _pos = pyautogui.locateCenterOnScreen(target.target , grayscale=True, confidence=.7)
             # _pos = pos.found_pos(target.target , .7)
@@ -91,6 +92,9 @@ class MoveHandler :
                 time.sleep(0.1)
                 pyautogui.press('f1')
             time.sleep(0.05)
+            if (time.time() - start) > 60 :
+                print("卡點")
+                return False
         return True
 
     def test(self,target) :
@@ -106,7 +110,7 @@ class MoveHandler :
         pyautogui.moveTo(self.center)
         t = threading.Thread(target=self.getTarget)
         t.start()
-        
+        start = time.time()
         while 1 :
             
             pyautogui.moveRel((count , 0) , duration = 0.2)
@@ -142,9 +146,11 @@ class MoveHandler :
             count += 30
             if count > 150 :
                 count = 60
-                
+            if (time.time() - start) > 60 :
+                print("卡點")
+                return False
         time.sleep(1)
-        return
+        return True
     def getTarget(self) :
         print("sreach")
         newpos = pos.found_pos(self.targetprocess.search , .7)
@@ -218,15 +224,19 @@ class MoveHandler :
         time.sleep(0.5)
         items = displaymap.read_directory("assets/items/")
         start = time.time()
-        while ( time.time() - start ) > timeout :
+        while ( time.time() - start ) < timeout :
             for item in items :
+                print(item)
                 a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )
                 if a_pos :
-                    pyautogui.moveTo()
+                    time.sleep(0.1)
+                    pyautogui.moveTo(a_pos)
                     time.sleep(0.1)
                     pyautogui.click()
             
             time.sleep(interval)
+        time.sleep(0.05)
+        pyautogui.press('alt')
     def putstore() :
         return
 
@@ -244,7 +254,8 @@ if __name__ == "__main__" :
     # m.adjust(testTargetPos)
     m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
     # m.runTargetProcess()
-    m.test(testTargetPos)
+    # m.test(testTargetPos)
+    m.pickitems(20,0.2)
     # malah_name_tag_white   
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
