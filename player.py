@@ -59,7 +59,11 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
   
     def end_game(self) :
         print("離開遊戲")
-        pyautogui.moveTo((0,0))
+        time.sleep(0.3)
+        pyautogui.moveTo(self.moveHandler.center)
+
+        time.sleep(0.3)
+        pyautogui.moveRel(400,400)
         time.sleep(0.3)
         pyautogui.press('esc')
         time.sleep(0.3)
