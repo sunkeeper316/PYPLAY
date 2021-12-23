@@ -1,4 +1,3 @@
-# from PIL.Image import NONE
 
 import pyautogui
 from displaymap import DisplayMap
@@ -57,32 +56,22 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         self.moveHandler.atk( 10 ,'f1' ,0.1)
         time.sleep(2)
         self.end_game()
-
-            
-
-    def checkTask(self) :
-        Task.checkDisPlay()
-
-    # def moveSouth(self) :
-    #     pyautogui.moveTo(pos.wincenter)
-    #     pyautogui.moveRel(None , 100)
-    #     pyautogui.keyDown('e')
-    #     time.sleep(0.03)
-    #     pyautogui.keyUp()
-    #     return
-
-    
+  
     def end_game(self) :
         print("離開遊戲")
-        time.sleep(0.1)
-        pyautogui.keyDown('esc')
-        time.sleep(0.1)
+        pyautogui.moveTo((0,0))
+        time.sleep(0.3)
+        pyautogui.press('esc')
+        time.sleep(0.3)
         exit_pos = pos.found_pos("assets/templates/save_and_exit_highlight.png" , .8)
-        pyautogui.moveTo(exit_pos)
-        time.sleep(0.1)
-        pyautogui.click()
-        time.sleep(0.1)
-        self.start()
+        if exit_pos :
+            pyautogui.moveTo(exit_pos)
+            time.sleep(0.3)
+            pyautogui.click()
+            time.sleep(0.3)
+            self.start()
+        else :
+            self.end_game()
     
     @staticmethod
     def a5_reddoor_process() :
@@ -101,14 +90,6 @@ if __name__ == "__main__" :
     _player.start()
 # pos.found_d2rwin
 
-
-
-# pos.end_game()
-
-
-# time.sleep(1)
-# pyautogui.moveRel(NONE , 375 , duration= 0.5)
-# time.sleep(1)
 
 
 
