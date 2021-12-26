@@ -38,12 +38,12 @@ class TargetProcess :
     @staticmethod
     def a5_start_to_store():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        poslist = []
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        poslist = [(-475 , 340),(0 , 225)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
         return TargetProcess(start_target , poslist , end_target)
     @staticmethod
     def a5_store_to_redDoor():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
+        start_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
         poslist = []
         end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
         return TargetProcess(start_target , poslist , end_target)
