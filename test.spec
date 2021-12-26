@@ -4,8 +4,8 @@
 block_cipher = None
 
 
-a = Analysis(['src\\test.py'],
-             pathex=['.\\src', 'C:\\Users\\sun\\miniconda3\\envs\\botty\\lib\\site-packages'],
+a = Analysis(['test.py'],
+             pathex=['.', 'C:\\Users\\sun\\miniconda3'],
              binaries=[],
              datas=[],
              hiddenimports=[],

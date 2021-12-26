@@ -51,7 +51,7 @@ if __name__ == "__main__":
     #     print(f"Building version: {__version__}")
     new_dev_version_code = "0.0.1"
     # clean_up()
-    dir = "./tt"
+    dir = "./run"
     if os.path.exists(dir):
         for path in Path(dir).glob("**/*"):
             if path.is_file():
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         shutil.rmtree(dir)
 
     for exe in ["test.py"]:
-        installer_cmd = f"pyinstaller --onefile --distpath {dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
+        installer_cmd = f"pyinstaller --onefile --distpath {dir} --exclude-module graphviz --paths . --paths {args.conda_path} {exe}"
         os.system(installer_cmd)
 
     os.system(f"cd {dir} && mkdir config && cd ..")
