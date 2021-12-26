@@ -73,8 +73,23 @@ def methodT1(a ,*b , **c) :
     print(a)
     print(b)
     print(c)
+def funnd_grid() :
+    grid = pyautogui.locateAllOnScreen('assets/templates/grid.png',grayscale=False, confidence=.9)
+    gridlist = list(grid)
+    # for g in gridlist :
+    #     pyautogui.moveTo(g , duration = 0.2)
+    print(len(gridlist))
+    print(gridlist)
+    # print(f'grid pos = {grid}')
+    # return grid
 
 if __name__ == "__main__" :
+    center = pos.found_center()
+    pyautogui.moveTo((center[0] - 640) , center[1] - 360)
+    # print(center[0] )
+    _pos = funnd_grid()
+    # pyautogui.moveTo(_pos)
+
     # testCallback(3,callback =testRun)
     # keyboard.add_hotkey('e', lambda: testRun("got key e"))
     # a = 4
@@ -97,7 +112,7 @@ if __name__ == "__main__" :
     # print(math.hypot(a_pos[0] ,a_pos[1] ))
     # print(math.hypot(b_pos[0] ,b_pos[1] ))
     # getPosition()
-    getMouse()
+    # getMouse()
 
     # center = found_zero()
     # while 1 :

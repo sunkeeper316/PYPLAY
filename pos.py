@@ -10,7 +10,7 @@ def found_pos(img , confidence ,timeout = 20):
 
         if _pos:
             return _pos
-        time.sleep(0.05)
+        time.sleep(0.01)
     return None
 
 def found_pos_list(imgs , confidence):
@@ -20,7 +20,7 @@ def found_pos_list(imgs , confidence):
             _pos = pyautogui.locateCenterOnScreen(f'{img}', grayscale=True, confidence=confidence)
             if _pos:
                 return _pos
-        time.sleep(0.05)
+        time.sleep(0.01)
     return None
 
 def found_center():
