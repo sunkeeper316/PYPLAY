@@ -1,4 +1,5 @@
 import math
+import random
 import keyboard
 import os
 # import displaymap
@@ -73,21 +74,49 @@ def methodT1(a ,*b , **c) :
     print(a)
     print(b)
     print(c)
-def funnd_grid() :
-    grid = pyautogui.locateAllOnScreen('assets/templates/grid.png',grayscale=False, confidence=.9)
-    gridlist = list(grid)
+def funnd_grid( row ) :
+    center = pos.found_center()
+    pyautogui.keyDown('ctrl')
+    for i in range(0 , row) :
+        for j in range(0 , 4) :
+            print((center[0] + 305 + i * 40,center[1] - 13 + j * 40))
+            grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( center[0] + 305 + i * 37 , center[1] - 13 + j * 37 , 45 , 45))
+            print(grid)
+            if not grid :
+                pyautogui.moveTo((center[0] + 305 + i * 40 + 19 ,center[1] - 13 + j * 40 + 19) , duration = 0.2)
+                time.sleep(0.3)
+                pyautogui.click()
+                time.sleep(0.3)
+                
+    pyautogui.keyUp('ctrl')
+
+            
+            
+    # gridcenter = pyautogui.locateCenterOnScreen('assets/templates/grid.png',grayscale=False, confidence=.8) 
+    # grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.8 , region=( center[0] + 305 , center[1] - 13 , 45 , 45))
+
+    
+    # gridlist = list(grid)
     # for g in gridlist :
-    #     pyautogui.moveTo(g , duration = 0.2)
-    print(len(gridlist))
-    print(gridlist)
+    # pyautogui.moveTo(grid , duration = 0.2)
+    # print(len(gridlist))
+    # print(grid)
     # print(f'grid pos = {grid}')
     # return grid
+    #(946,347) (306 , -13)
 
 if __name__ == "__main__" :
-    center = pos.found_center()
-    pyautogui.moveTo((center[0] - 640) , center[1] - 360)
+    # for i in range(0 , 2) :
+    #     # print(f"x:{i * 42}")
+    #     for j in range(0 , 7) :
+    #         # print(f"y:{j * 42}")
+    #         print(f"(x,y){(i * 42,j * 42)}")
+    # center = pos.found_center()
+    # x = center[0] - 640
+    # print((center[0] , center[1]))
+    # pyautogui.moveTo( (center[0] - 640 , center[1] - 360) )
     # print(center[0] )
-    _pos = funnd_grid()
+    _pos = funnd_grid( 4 )
     # pyautogui.moveTo(_pos)
 
     # testCallback(3,callback =testRun)

@@ -87,7 +87,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
 
 # assets/templates/hell_btn.png
 # assets/templates/nightmare_btn.png
-# assets/templates/normal_btn.png
+# assets/templates/normal_btn.pngGGG
 
 if __name__ == "__main__" : 
     _player = Player(difficulty = Player.hell)

@@ -239,6 +239,22 @@ class MoveHandler :
         pyautogui.press('alt')
     def putstore() :
         return
+    
+    def funnd_grid( row ) :
+        center = pos.found_center()
+        pyautogui.keyDown('ctrl')
+        for i in range(0 , row) :
+            for j in range(0 , 4) :
+                print((center[0] + 305 + i * 40,center[1] - 13 + j * 40))
+                grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( center[0] + 305 + i * 37 , center[1] - 13 + j * 37 , 45 , 45))
+                print(grid)
+                if not grid :
+                    pyautogui.moveTo((center[0] + 305 + i * 40 + 19 ,center[1] - 13 + j * 40 + 19) , duration = 0.2)
+                    time.sleep(0.3)
+                    pyautogui.click()
+                    time.sleep(0.3)
+                    
+        pyautogui.keyUp('ctrl')
 
 
 
