@@ -1,7 +1,7 @@
 import time
 
 class TargetProcess :
-    def __init__(self ,start_target , poslist , end_target = None, search = None , atk = False ,teleport = False ) :
+    def __init__(self ,start_target = None , poslist = [] , end_target = None, search = None , atk = False ,teleport = False ) :
         self.start_target = start_target
         self.poslist = poslist
         self.end_target = end_target
@@ -37,16 +37,16 @@ class TargetProcess :
         return TargetProcess(start_target , poslist , end_target, atk=True , teleport = True)
     @staticmethod
     def a5_start_to_store():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        poslist = [(-475 , 340),(0 , 225)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
-        return TargetProcess(start_target , poslist , end_target)
+        start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
+        poslist = [(-475 , 340),(0 , 225),(300 , 0), (0 , 90)]
+        # end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (20,-145))
+        return TargetProcess(start_target , poslist  , search = "assets/templates/a5_town/a5_town_13.png")
     @staticmethod
     def a5_store_to_redDoor():
-        start_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
-        poslist = []
-        end_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
-        return TargetProcess(start_target , poslist , end_target)
+        # start_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
+        poslist = [(-475 , 340),(0 , 225),(-500 , -90)]
+        end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0))
+        return TargetProcess(  poslist = poslist,end_target = end_target, search = "assets/templates/a5_red_portal_text.png")
     @staticmethod
     def a5_store_to_fix():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))

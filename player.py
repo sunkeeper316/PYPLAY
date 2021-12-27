@@ -20,7 +20,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
 
     def start(self) :
         print("開始遊戲")
-        play = pos.found_pos("assets/templates/play_btn_gray.png" , .7)
+        play = pos.found_pos("assets/templates/play_btn_gray.png" ,.7)
         # assets/templates/play_btn_gray.png
         pyautogui.moveTo(play)
         time.sleep(0.3)
@@ -30,8 +30,10 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         pyautogui.moveTo(difficulty_pos)
         time.sleep(0.3)
         pyautogui.click()
-        time.sleep(0.3)
-        self.runprocess()
+        time.sleep(10)
+        result =  self.runprocess(Player.a5_store_process())
+        if result :
+            self.put_store(2)
         # pos.found_d2rwin() 
         # checkTownTask = Task()
         # self.displaymap = checkTownTask.checTOWNSTART()
@@ -39,9 +41,9 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         # checkTownTask.a5_moveToRedWp()
 
     
-    def runprocess(self) :
+    def runprocess(self , processList) :
         print('執行遊戲流程')
-        processList = Player.a5_reddoor_process()
+        
         for p in processList :
             self.moveHandler.targetprocess = p
             result = self.moveHandler.runTargetProcess()
@@ -52,21 +54,31 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
                 print('卡住重開')
                 
                 self.end_game()
-            
-        self.moveHandler.atk( 10 ,'f1' ,0.1)
-        time.sleep(2)
-        self.end_game()
-  
-    def end_game(self) :
-        print("離開遊戲")
-        time.sleep(0.3)
-        pyautogui.moveTo(self.moveHandler.center)
+        
+        return True
+        
 
+    def put_store(self,row) :
+        print("放入倉庫")
+        self.moveHandler.put_store(row)
+        time.sleep(0.3)
+        print("放入倉庫")
+        result = self.runprocess(Player.a5_reddoor_process())
+        if result :
+            self.atk()
+    
+    def atk(self):
+        self.moveHandler.atk( 10 ,'f1' ,0.1)
+
+        time.sleep(1)
+        self.moveHandler.pickitems(20 , 0.2)
+        self.end_game()
+
+    def end_game(self) :
         time.sleep(0.3)
         pyautogui.moveRel(400,400)
         time.sleep(0.3)
         pyautogui.press('esc')
-        time.sleep(0.3)
         exit_pos = pos.found_pos("assets/templates/save_and_exit_highlight.png" , .8)
         if exit_pos :
             pyautogui.moveTo(exit_pos)
@@ -78,13 +90,18 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
             self.end_game()
     
     @staticmethod
-    def a5_reddoor_process() :
+    def a5_store_process() :
         p1 = TargetProcess.a5_start_to_malah()
         p2 = TargetProcess.a5_malah_to_start()
-        p3 = TargetProcess.a5_start_to_redDoor()
-        p4 = TargetProcess.a5_reddoor_to_pindle()
-        return [p1 , p2 , p3 , p4]
-
+        p3 = TargetProcess.a5_start_to_store()
+        
+        return [p1 , p2 , p3 ]
+    
+    @staticmethod
+    def a5_reddoor_process() :
+        p1 = TargetProcess.a5_store_to_redDoor()
+        p2 = TargetProcess.a5_reddoor_to_pindle()
+        return [p1 , p2 ]
 # assets/templates/hell_btn.png
 # assets/templates/nightmare_btn.png
 # assets/templates/normal_btn.pngGGG

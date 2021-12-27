@@ -174,14 +174,17 @@ class MoveHandler :
 
     def runTargetProcess(self ) :
         if self.targetprocess.atk :
+            time.sleep(0.1)
             pyautogui.press('f5')
-            time.sleep(0.05)
+            time.sleep(0.1)
             pyautogui.press('f2')
-        start_target = self.targetprocess.start_target
-        print("start_target")
-        if not self.adjust(start_target) :
-            return False
-        self.current = start_target
+        if self.targetprocess.start_target :
+            start_target = self.targetprocess.start_target
+            print("start_target")
+            if not self.adjust(start_target) :
+                return False
+        
+            self.current = start_target
         print(f"當前位子{self.current}")
         for index , pos in enumerate(self.targetprocess.poslist) :
             pyautogui.moveTo(self.center)
@@ -222,12 +225,12 @@ class MoveHandler :
     def pickitems(self,timeout , interval) :
         pyautogui.press('alt')
         time.sleep(0.5)
-        items = displaymap.read_directory("assets/items/")
+        items = displaymap.read_directory("assets/pickitem/")
         start = time.time()
         while ( time.time() - start ) < timeout :
             for item in items :
                 print(item)
-                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=True, confidence=.7 )
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=False, confidence=.8 )
                 if a_pos :
                     time.sleep(0.1)
                     pyautogui.moveTo(a_pos)
@@ -240,7 +243,7 @@ class MoveHandler :
     def putstore() :
         return
     
-    def funnd_grid( row ) :
+    def put_store(self, row ) :
         center = pos.found_center()
         pyautogui.keyDown('ctrl')
         for i in range(0 , row) :
@@ -255,6 +258,21 @@ class MoveHandler :
                     time.sleep(0.3)
                     
         pyautogui.keyUp('ctrl')
+        time.sleep(0.3)
+        pyautogui.press('esc')
+        time.sleep(0.3)
+        return True
+    
+    def getCorpse(self) :
+        center = pos.found_center()
+        pyautogui.moveTo(center)
+        time.sleep(0.3)
+        postion = pyautogui.locateCenterOnScreen('assets/templates/corpse.png' ,grayscale=False, confidence=.75)
+        if postion :
+            pyautogui.click()
+        
+
+
 
 
 
@@ -263,15 +281,24 @@ if __name__ == "__main__" :
     # target = pos.found_get(["assets/templates/a5_town/a5_town_0.png"] , .7)
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_name_tag_white.png" ])
     # m = MoveHandler(targetname = "assets/templates/a5_town/a5_town_4.png")
-    testTargetPos = TargetPos("assets/templates/a5_town/a5_town_0.png" , (51,135))
+    testTargetPos = TargetPos("assets/templates/a5_town/a5_town_3.png" , (51,135))
    
     # a5_start_to_malah  a5_malah_to_start  a5_start_to_redDoor  assets/templates/pindle/pindle_8.pnge
     
     # m.adjust(testTargetPos)
-    m = MoveHandler(targetprocess= TargetProcess.a5_start_to_malah())
-    # m.runTargetProcess()
+    m = MoveHandler(targetprocess= TargetProcess.a5_store_to_redDoor())
+    print(m.targetprocess.start_target)
+    # m = MoveHandler(targetprocess= TargetProcess.a5_start_to_store())
+    m.getCorpse()
+    # t1 = m.runTargetProcess()
+    # if t1 :
+    #     t2 = m.put_store(2)
+    #     if t2 :
+    #         m.targetprocess = TargetProcess.a5_store_to_redDoor()
+    #         t3 = m.runTargetProcess()
     # m.test(testTargetPos)
-    m.pickitems(20,0.2)
+    # m.test(testTargetPos)
+    # m.pickitems(20,0.2)
     # malah_name_tag_white   
     # m = MoveHandler(targetname = ["assets/npc/malah/malah_45.png" , "assets/npc/malah/malah_back.png" , "assets/npc/malah/malah_front.png" , "assets/npc/malah/malah_side.png" , "assets/npc/malah/malah_side_2.png"])
     # m.search()
