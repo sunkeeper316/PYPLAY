@@ -31,6 +31,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         time.sleep(0.3)
         pyautogui.click()
         time.sleep(10)
+        # pos.found_pos()
         result =  self.runprocess(Player.a5_store_process())
         if result :
             self.put_store(2)
@@ -69,7 +70,14 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
     
     def atk(self):
         self.moveHandler.atk( 10 ,'f1' ,0.1)
+        time.sleep(1)
+        self.moveHandler.pickitems(20 , 0.2)
+        self.end_game()
 
+    def sor_atk(self) :
+        # pos.found_center()
+        pyautogui.moveTo(self.moveHandler.center)
+        self.moveHandler.atk( 10 ,'f1' ,1)
         time.sleep(1)
         self.moveHandler.pickitems(20 , 0.2)
         self.end_game()

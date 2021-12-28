@@ -159,7 +159,7 @@ class MoveHandler :
             print(f"sreach 確定{newpos}")
             # self.target = newpos
             self.isSearch = True
-            time.sleep(0.2)
+            time.sleep(1)
             pyautogui.moveTo((newpos[0] , newpos[1] + 50))
             time.sleep(0.2)
             pyautogui.click()
@@ -271,7 +271,8 @@ class MoveHandler :
         if postion :
             pyautogui.click()
         
-
+    def checkCurrent(img , confidence ,timeout = 20):
+        pos.found_pos(img , confidence ,timeout)
 
 
 

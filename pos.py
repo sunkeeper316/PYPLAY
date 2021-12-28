@@ -32,44 +32,6 @@ def found_center():
             return (_pos.x, _pos.y + 375)
 
 
-
-# def funnd_get(list: list, q: Queue):
-
-#     while 1:
-#         for a in list:
-#             a_pos = pyautogui.locateOnScreen(
-#                 f'assets/{a}.png', grayscale=True, confidence=.8)
-#             if a_pos:
-#                 print(F"發現座標 {a_pos}")
-#                 if q:
-#                     q.put(pyautogui.center(a_pos))
-
-#                 return pyautogui.center(a_pos)
-
-
-# def found_get(list: list):
-
-#     while 1:
-#         for a in list:
-#             a_pos = pyautogui.locateOnScreen(
-#                 f'{a}', grayscale=True, confidence=.7)
-#             if a_pos:
-#                 print(F"發現座標 {a_pos}")
-
-#                 return pyautogui.center(a_pos)
-
-
-# def found_get(list: list, confidence):
-#     while 1:
-#         for a in list:
-#             a_pos = pyautogui.locateOnScreen(
-#                 f'{a}', grayscale=True, confidence=confidence)
-#             if a_pos:
-#                 print(F"發現座標 {a_pos}")
-
-#                 return pyautogui.center(a_pos)
-
-
 def found_twon(list: list):
     while 1:
         for l in list:

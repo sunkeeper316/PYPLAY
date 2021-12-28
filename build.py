@@ -4,6 +4,7 @@ from pathlib import Path
 # from src.version import __version__
 import argparse
 import getpass
+import pyinstaller
 
 
 parser = argparse.ArgumentParser(description="Build Botty")
