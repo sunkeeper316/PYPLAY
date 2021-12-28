@@ -27,14 +27,19 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         pyautogui.click()
         # if difficulty == "norm"
         difficulty_pos = pos.found_pos(self.difficulty , .8)
-        pyautogui.moveTo(difficulty_pos)
-        time.sleep(0.3)
-        pyautogui.click()
-        time.sleep(10)
-        # pos.found_pos()
-        result =  self.runprocess(Player.a5_store_process())
-        if result :
-            self.put_store(2)
+        if difficulty_pos :
+            pyautogui.moveTo(difficulty_pos)
+            time.sleep(0.3)
+            pyautogui.click()
+            time.sleep(10)
+            # pos.found_pos()
+            result =  self.runprocess(Player.a5_store_process())
+            if result :
+                self.put_store(2)
+        else :
+            pyautogui.click()
+            time.sleep(0.3)
+        
         # pos.found_d2rwin() 
         # checkTownTask = Task()
         # self.displaymap = checkTownTask.checTOWNSTART()
@@ -66,7 +71,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
         print("放入倉庫")
         result = self.runprocess(Player.a5_reddoor_process())
         if result :
-            self.atk()
+            self.sor_atk()
     
     def atk(self):
         self.moveHandler.atk( 10 ,'f1' ,0.1)
@@ -84,7 +89,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
 
     def end_game(self) :
         time.sleep(0.3)
-        pyautogui.moveRel(400,400)
+        pyautogui.moveRel(350,250)
         time.sleep(0.3)
         pyautogui.press('esc')
         exit_pos = pos.found_pos("assets/templates/save_and_exit_highlight.png" , .8)
@@ -115,6 +120,6 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
 # assets/templates/normal_btn.pngGGG
 
 if __name__ == "__main__" : 
-    _player = Player(difficulty = Player.hell)
+    _player = Player(difficulty = Player.nightmare)
     _player.start()
 # pos.found_d2rwin
