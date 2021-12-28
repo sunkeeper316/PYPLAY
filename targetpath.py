@@ -44,7 +44,7 @@ class TargetProcess :
     @staticmethod
     def a5_store_to_redDoor():
         # start_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
-        poslist = [(-475 , 340),(0 , 225),(-500 , -90)]
+        poslist = [(-475 , 340),(0 , 225),(-500 , -90),(-30,0)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0))
         return TargetProcess(  poslist = poslist,end_target = end_target, search = "assets/templates/a5_red_portal_text.png")
     @staticmethod
