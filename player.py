@@ -120,9 +120,10 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
 # assets/templates/normal_btn.pngGGG
 
 if __name__ == "__main__" : 
-    tv = pos.found_pos("assets/tviewer.png" , confidence= .8 , timeout = 5)
-    if tv :
-        pyautogui.press('enter')
+    # tv = pos.found_pos("assets/tviewer.png" , confidence= .8 , timeout = 5)
+    # if tv :
+    #     pyautogui.press('enter')
     _player = Player(difficulty = Player.nightmare)
     _player.start()
 # pos.found_d2rwin
+

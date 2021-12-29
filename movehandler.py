@@ -56,7 +56,7 @@ class MoveHandler :
     def atk_adjust(self ,target ) :
         print("修正目的地位子")
         start = time.time()
-        while 1 :
+        while (time.time() - start) > 60 :
             _pos = pyautogui.locateCenterOnScreen(target.target , grayscale=True, confidence=.7)
             # _pos = pos.found_pos(target.target , .7)
             time.sleep(0.1)
@@ -112,6 +112,7 @@ class MoveHandler :
                     return False
             else :
                 pyautogui.click()
+                return True
         else :
             return False
 
@@ -196,7 +197,7 @@ class MoveHandler :
         if self.targetprocess.start_target :
             start_target = self.targetprocess.start_target
             if self.targetprocess.atk :
-                if pos.found_pos(start_target , confidence = .8) :
+                if pos.found_pos(start_target.target , confidence = .8) :
                     self.addbuff('f5')
                     
             print("start_target")
