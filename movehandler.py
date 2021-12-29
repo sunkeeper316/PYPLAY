@@ -5,15 +5,16 @@ import displaymap
 import time
 import math
 import pyautogui
-import direction
+import common
 from targetpath import TargetPath, TargetProcess ,TargetPos
 import random
+
 
 class MoveHandler : 
     #移動程序 (起始點檢查修正)->路徑->(1.找尋目標點擊 ,2.目標修正座標)
     #center 視窗正中央 所有移動必須跟視窗正中央去做基準點
     # TargetProcess 流程來執行整體移動 teleport 是否能傳送
-    def __init__(self  ,targetprocess = None,teleport = False,current = "" , center = pos.found_center()):
+    def __init__(self  ,targetprocess = None,teleport = False,current = "" , center = pos.found_center() ):
         self.center = center
         self.targetprocess = targetprocess
         
@@ -72,10 +73,9 @@ class MoveHandler :
                     pyautogui.moveRel((adjust_x , adjust_y))
                     time.sleep(0.1)
                     pyautogui.press('f3')
-                    time.sleep(0.1)
+                    time.sleep(0.2)
                     pyautogui.press('f1')
-                    time.sleep(0.1)
-                    pyautogui.press('f1')
+                    
                     # time.sleep(0.3)
                     # self.test(target)
                 else :
@@ -87,15 +87,33 @@ class MoveHandler :
                 pyautogui.moveRel((random.randint(-50,50) , random.randint(-50,50)))
                 time.sleep(0.1)
                 pyautogui.press('f3')
-                time.sleep(0.1)
+                time.sleep(0.2)
                 pyautogui.press('f1')
-                time.sleep(0.1)
-                pyautogui.press('f1')
+                
             time.sleep(0.05)
             if (time.time() - start) > 60 :
                 print("卡點")
                 return False
         return True
+
+    def noAdjust(self , targetpos):
+        tpos = pos.found_pos(targetpos.target , confidence = .8)
+        if tpos :
+            pyautogui.moveTo(tpos , duration = 0.1)
+            time.sleep(0.3)
+            if targetpos.targetclick :
+                clickpos = pos.found_pos(targetpos.targetclick , confidence = .8)
+                if clickpos :
+                    pyautogui.moveTo(clickpos , duration = 0.1)
+                    time.sleep(0.3)
+                    pyautogui.click()
+                    return True
+                else :
+                    return False
+            else :
+                pyautogui.click()
+        else :
+            return False
 
     def test(self,target) :
         _pos = pos.found_pos(target.target , .7)
@@ -148,6 +166,7 @@ class MoveHandler :
                 count = 60
             if (time.time() - start) > 60 :
                 print("卡點")
+                common.infoLog(f"未尋找到{self.targetprocess.search},卡點")
                 return False
         time.sleep(1)
         return True
@@ -173,23 +192,23 @@ class MoveHandler :
     #     return
 
     def runTargetProcess(self ) :
-        if self.targetprocess.atk :
-            time.sleep(0.1)
-            pyautogui.press('f5')
-            time.sleep(0.1)
-            pyautogui.press('f2')
+        
         if self.targetprocess.start_target :
             start_target = self.targetprocess.start_target
+            if self.targetprocess.atk :
+                if pos.found_pos(start_target , confidence = .8) :
+                    self.addbuff('f5')
+                    
             print("start_target")
             if not self.adjust(start_target) :
                 return False
         
             self.current = start_target
         print(f"當前位子{self.current}")
-        for index , pos in enumerate(self.targetprocess.poslist) :
+        for index , _pos in enumerate(self.targetprocess.poslist) :
             pyautogui.moveTo(self.center)
             time.sleep(0.1)
-            pyautogui.moveRel(pos)
+            pyautogui.moveRel(_pos)
             if self.targetprocess.teleport :
                 pyautogui.press('f3')
             else :
@@ -199,12 +218,17 @@ class MoveHandler :
         if self.targetprocess.end_target :
             end_target = self.targetprocess.end_target
             print("end_target")
+
             if self.targetprocess.atk :
                 if not self.atk_adjust(end_target) :
                     return False
             else :
-                if not self.adjust(end_target ) :
-                    return False
+                if self.targetprocess.end_target.adjust :
+                    if not self.adjust(end_target ) :
+                        return False
+                else :
+                    if not self.noAdjust(end_target ) :
+                        return False
             self.current = end_target
         print(f"當前位子{self.current}")
         if self.targetprocess.search :
@@ -222,6 +246,21 @@ class MoveHandler :
         time.sleep(0.05)
         pyautogui.press('f6')
         # self.pickitems(10,0.1)
+    def addbuff(self , buffclick , ctabuff = None) :
+        time.sleep(0.3)
+        pyautogui.press(buffclick)
+        time.sleep(0.3)
+
+        if ctabuff :
+            pyautogui.press('w')
+            time.sleep(0.2)
+            pyautogui.press('f6')
+            time.sleep(0.2)
+            pyautogui.press('f7')
+            time.sleep(0.2)
+            pyautogui.press('w')
+            time.sleep(0.2)
+        
     def pickitems(self,timeout , interval) :
         pyautogui.press('alt')
         time.sleep(0.5)
@@ -240,8 +279,6 @@ class MoveHandler :
             time.sleep(interval)
         time.sleep(0.05)
         pyautogui.press('alt')
-    def putstore() :
-        return
     
     def put_store(self, row ) :
         center = pos.found_center()
@@ -324,89 +361,3 @@ if __name__ == "__main__" :
     #                 m.atk(10 , 'f1' , 0.05)
     #                 time.sleep(0.05)
     #                 pyautogui.press('f6')
-
-    # m = MoveHandler(targetprocess= TargetProcess.a5_reddoor_to_pindle())
-    # t4 = m.runTargetProcess()
-    # if t4 :
-    #     print("t4 ok")
-    #     m.atk(5 , 'f1' , 0.2)
-    
-    # m.atk(20 , 'f1' , 0.2)
-    # threading.Event
-    # m.move()
-    
-
-
-    # def getDist(self) : #取得距離另外線程處理
-    #     if self.targetname == "" :
-    #         return
-    #     while 1 :
-    #         self.center = pos.found_center()
-    #         print(f"target {self.target}")
-    #         print(f"center {self.center}")
-    #         if self.direction :
-    #             direction.getDirection(self.direction)
-            
-    #         pyautogui.keyDown('e')
-    #         time.sleep(0.02)
-    #         pyautogui.keyUp('e')
-    #         a_pos = pyautogui.locateOnScreen(f'{self.targetname}',grayscale=True, confidence=.7 )
-
-    #         # self.target = pos.found_get([self.targetname] , .6)
-    #         if a_pos : 
-    #             self.target = pyautogui.center(a_pos)
-    #             self.dist = math.dist(self.center , self.target)
-
-    #             print(self.dist)
-
-    #             if self.dist < 150 :
-    #                 print(f"目標已到 {self.targetname}準備下一個目標")
-    #                 # pyautogui.keyUp('e')
-
-                    
-    #                 index = len(self.targetPathList) - 1
-    #                 if self.targetname == self.targetPathList[index].target :
-    #                     self.targetname = ""
-    #                     break
-    #                 self.targetname = ""
-    #                 time.sleep(0.05)
-    #             else  :
-    #                 self.direction = None
-    #                 time.sleep(0.02)
-    #                 a_pos = pyautogui.locateOnScreen(f'{self.targetname}',grayscale=True, confidence=.7 )
-    #                 if a_pos :
-    #                     pyautogui.moveTo(pyautogui.center(a_pos))
-    #                     time.sleep(0.02)
-    #                     pyautogui.click()
-                   
-                    
-    #                 print(f"目標靠近了")
-                   
-    #         else :
-
-    #             time.sleep(0.02)
-    #             # pyautogui.keyDown('e')
-    #             # time.sleep(0.02)
-    #             # pyautogui.keyUp('e')
-            
-                
-    #         time.sleep(0.05)
-    #     return
-    
-    # def moveTargetPathList(self) : #路徑實行
-
-    #     for index , t in enumerate(self.targetPathList)  :
-    #         print(f"index{index}")
-    #         self.targetname = t.target
-    #         pyautogui.moveTo(self.center)
-    #         time.sleep(0.1)
-    #         pyautogui.moveRel(t.postion)
-    #         pyautogui.press('e')
-    #         # direction.getDirection(t.direction)
-    #         # pyautogui.keyDown('e')
-    #         time.sleep(1.5)
-        
-           
-    # def move(self) :
-    #     t = threading.Thread(target=self.getDist)
-    #     t.start()

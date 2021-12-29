@@ -39,14 +39,14 @@ class TargetProcess :
     def a5_start_to_store():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
         poslist = [(-475 , 340),(0 , 225),(300 , 0), (0 , 90)]
-        # end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (20,-145))
-        return TargetProcess(start_target , poslist  , search = "assets/templates/a5_town/a5_town_13.png")
+        end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , adjust = None , targetclick= "assets/templates/a5_town_13.png")
+        return TargetProcess(start_target , poslist  ,end_target = end_target)
     @staticmethod
     def a5_store_to_redDoor():
         # start_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , (0,0))
         poslist = [(-475 , 340),(0 , 225),(-500 , -90),(-30,0)]
-        end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0))
-        return TargetProcess(  poslist = poslist,end_target = end_target, search = "assets/templates/a5_red_portal_text.png")
+        end_target = TargetPos("assets/templates/a5_town/a5_town_7.png" , (0,0) , adjust = None , targetclick= "assets/templates/a5_red_portal_text.png")
+        return TargetProcess(  poslist = poslist,end_target = end_target)
     @staticmethod
     def a5_store_to_fix():
         start_target = TargetPos("assets/templates/a5_town/a5_town_0.png" , (0,0))
@@ -100,10 +100,11 @@ class TargetPath :
 
 class TargetPos :
 #找尋目標而且確認目標應該距離當前位子座標
-    def __init__(self , target , postion , adjust = 30) :
+    def __init__(self , target , postion = None, adjust = 30 , targetclick = None) :
         self.target = target
         self.postion = postion
         self.adjust = adjust
+        self.targetclick = targetclick
     @staticmethod
 
     def a5_town_0() :

@@ -6,12 +6,7 @@ def main() :
     player = Player()
     player.start()
 
-def saveFile(str):
-    print("saveFile")
-    
-    with open("log.txt" , 'a') as t :
-        t.write(str)
-        # print("String Variable: {}".format(str), file=t)
+
 
 # run start
 print(__name__)
