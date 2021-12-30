@@ -31,7 +31,7 @@ class Player: #主要控制開遊戲前的選單 在用moveHandler控制遊戲�
             pyautogui.moveTo(difficulty_pos)
             time.sleep(0.3)
             pyautogui.click()
-            time.sleep(10)
+            time.sleep(20)
             # pos.found_pos()
             result =  self.runprocess(Player.a5_store_process())
             if result :

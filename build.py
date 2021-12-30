@@ -32,6 +32,8 @@ def clean_up():
         os.remove("health_manager.spec")
     if os.path.exists("shopper.spec"):
         os.remove("shopper.spec")
+    if os.path.exists("player.spec"):
+        os.remove("player.spec")
 
 if __name__ == "__main__":
     # new_dev_version_code = None
@@ -61,10 +63,12 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(dir)
 
-    for exe in ["test.py"]:
-        installer_cmd = f"pyinstaller --onefile --distpath {dir} --exclude-module graphviz --paths . --paths {args.conda_path} {exe}"
-        os.system(installer_cmd)
+    # for exe in ["test.py"]:
+    #     installer_cmd = f"pyinstaller --onefile --distpath {dir} --exclude-module graphviz --paths . --paths {args.conda_path} {exe}"
+    #     os.system(installer_cmd)
 
+    installer_cmd = f"pyinstaller --onefile --distpath {dir} --paths . player.py"
+    os.system(installer_cmd)
     os.system(f"cd {dir} && mkdir config && cd ..")
 
     # with open(f"{dir}/config/custom.ini", "w") as f: 
@@ -74,11 +78,11 @@ if __name__ == "__main__":
     # shutil.copy("config/pickit.ini", f"{dir}/config/")
     # shutil.copy("config/shop.ini", f"{dir}/config/")
     # shutil.copy("README.md", f"{dir}/")
-    # shutil.copytree("assets", f"{dir}/assets")
-    # clean_up()
+    shutil.copytree("assets", f"{dir}/assets")
+    clean_up()
 
-    if new_dev_version_code is not None:
-        # with open('src/version.py', 'w') as f:
-        #     f.write(new_dev_version_code)
-        os.system(f'git add .')
-        os.system(f'git commit -m "Bump version to v{args.version}"')
+    # if new_dev_version_code is not None:
+    #     # with open('src/version.py', 'w') as f:
+    #     #     f.write(new_dev_version_code)
+    #     os.system(f'git add .')
+    #     os.system(f'git commit -m "Bump version to v{args.version}"')
