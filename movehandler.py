@@ -97,12 +97,12 @@ class MoveHandler :
         return True
 
     def noAdjust(self , targetpos):
-        tpos = pos.found_pos(targetpos.target , confidence = .8)
+        tpos = pos.found_pos(targetpos.target , confidence = .6)
         if tpos :
             pyautogui.moveTo(tpos , duration = 0.1)
             time.sleep(0.3)
             if targetpos.targetclick :
-                clickpos = pos.found_pos(targetpos.targetclick , confidence = .8)
+                clickpos = pos.found_pos(targetpos.targetclick , confidence = .6)
                 if clickpos :
                     pyautogui.moveTo(clickpos , duration = 0.1)
                     time.sleep(0.3)
@@ -132,40 +132,41 @@ class MoveHandler :
         start = time.time()
         while 1 :
             
-            pyautogui.moveRel((count , 0) , duration = 0.2)
+            pyautogui.moveRel((count , 0) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , count) , duration = 0.2)
+            pyautogui.moveRel((0 , count) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((-count , 0) , duration = 0.2)
+            pyautogui.moveRel((-count , 0) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((-count , 0) , duration = 0.2)
+            pyautogui.moveRel((-count , 0) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , -count) , duration = 0.2)
+            pyautogui.moveRel((0 , -count) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , -count) , duration = 0.2)
+            pyautogui.moveRel((0 , -count) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((count , 0) , duration = 0.2)
+            pyautogui.moveRel((count , 0) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((count , 0) , duration = 0.2)
+            pyautogui.moveRel((count , 0) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveRel((0 , count) , duration = 0.2)
+            pyautogui.moveRel((0 , count) , duration = 0.3)
             if self.isSearch :
                 break
-            pyautogui.moveTo(self.center , duration = 0.2)
+            pyautogui.moveTo(self.center , duration = 0.3)
             if self.isSearch :
                 break
             count += 30
             if count > 150 :
                 count = 60
-            if (time.time() - start) > 60 :
+            if (time.time() - start) > 20 :
+                
                 print("卡點")
                 common.infoLog(f"未尋找到{self.targetprocess.search},卡點")
                 return False
@@ -173,7 +174,7 @@ class MoveHandler :
         return True
     def getTarget(self) :
         print("sreach")
-        newpos = pos.found_pos(self.targetprocess.search , .7)
+        newpos = pos.found_pos(self.targetprocess.search , .6 , timeout=20)
         
         if newpos :
             print(f"sreach 確定{newpos}")
@@ -186,7 +187,8 @@ class MoveHandler :
             time.sleep(0.5)
             # t = threading.Timer(1 , self.movesreach)
             # t.start()
-        return
+        
+        
     # def movesreach(self) :
     #     print("點擊 sreach")
         
@@ -240,8 +242,13 @@ class MoveHandler :
         return True
     def atk(self,timeout , key , interval) :
         start = time.time()
+        
         while ( time.time() - start ) < timeout :
             print(time.time() - start)
+            pyautogui.moveTo(self.center)
+            time.sleep(0.05)
+            pyautogui.moveRel((250,-200))
+            time.sleep(0.05)
             pyautogui.press(f'{key}')
             time.sleep(interval)
         time.sleep(0.05)
@@ -282,15 +289,16 @@ class MoveHandler :
         pyautogui.press('alt')
     
     def put_store(self, row ) :
-        center = pos.found_center()
+        # center = pos.found_center()
         pyautogui.keyDown('ctrl')
         for i in range(0 , row) :
             for j in range(0 , 4) :
-                print((center[0] + 305 + i * 40,center[1] - 13 + j * 40))
-                grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( center[0] + 305 + i * 37 , center[1] - 13 + j * 37 , 45 , 45))
+                print((self.center[0] + 305 + i * 40,self.center[1] - 13 + j * 40))
+                grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( self.center[0] + 305 + i * 37 , self.center[1] - 13 + j * 37 , 45 , 45))
                 print(grid)
                 if not grid :
-                    pyautogui.moveTo((center[0] + 305 + i * 40 + 19 ,center[1] - 13 + j * 40 + 19) , duration = 0.2)
+                    print("放入倉庫")
+                    pyautogui.moveTo((self.center[0] + 305 + i * 40 + 19 ,self.center[1] - 13 + j * 40 + 19) , duration = 0.2)
                     time.sleep(0.3)
                     pyautogui.click()
                     time.sleep(0.3)

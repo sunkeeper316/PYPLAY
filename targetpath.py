@@ -38,7 +38,7 @@ class TargetProcess :
     @staticmethod
     def a5_start_to_store():
         start_target = TargetPos("assets/templates/a5_town/a5_town_1.png" , (51,135))
-        poslist = [(-475 , 340),(0 , 225),(300 , 0), (0 , 90)]
+        poslist = [(-475 , 340),(0 , 225),(300 , 0), (0 , 150)]
         end_target = TargetPos("assets/templates/a5_town/a5_town_3.png" , adjust = None )
         return TargetProcess(start_target , poslist  ,end_target = end_target)
     @staticmethod
