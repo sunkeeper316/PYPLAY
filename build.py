@@ -34,6 +34,8 @@ def clean_up():
         os.remove("shopper.spec")
     if os.path.exists("player.spec"):
         os.remove("player.spec")
+    if os.path.exists("movehandler.spec"):
+        os.remove("movehandler.spec")
 
 if __name__ == "__main__":
     # new_dev_version_code = None
@@ -69,8 +71,10 @@ if __name__ == "__main__":
 
     installer_cmd = f"pyinstaller --onefile --distpath {dir} --paths . player.py"
     os.system(installer_cmd)
-    os.system(f"cd {dir} && mkdir config && cd ..")
+    # os.system(f"cd {dir} && mkdir config && cd ..")
 
+    # installer_cmd = f"pyinstaller --onefile --distpath {dir} --paths . movehandler.py"
+    # os.system(installer_cmd)
     # with open(f"{dir}/config/custom.ini", "w") as f: 
     #     f.write("; Add parameters you want to overwrite from param.ini here")
     # shutil.copy("config/game.ini", f"{dir}/config/")

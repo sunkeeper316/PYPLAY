@@ -277,7 +277,7 @@ class MoveHandler :
         while ( time.time() - start ) < timeout :
             for item in items :
                 print(item)
-                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=False, confidence=.8 )
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=False, confidence=.3 )
                 if a_pos :
                     time.sleep(0.1)
                     pyautogui.moveTo(a_pos)
@@ -336,7 +336,7 @@ if __name__ == "__main__" :
     m = MoveHandler(targetprocess= TargetProcess.a5_store_to_redDoor())
     print(m.targetprocess.start_target)
     # m = MoveHandler(targetprocess= TargetProcess.a5_start_to_store())
-    m.getCorpse()
+    m.pickitems(20 , 0.2)
     # t1 = m.runTargetProcess()
     # if t1 :
     #     t2 = m.put_store(2)
