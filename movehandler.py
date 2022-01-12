@@ -277,7 +277,7 @@ class MoveHandler :
         while ( time.time() - start ) < timeout :
             for item in items :
                 print(item)
-                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=False, confidence=.3 )
+                a_pos = pyautogui.locateCenterOnScreen(f'{item}',grayscale=False, confidence=.75 )
                 if a_pos :
                     time.sleep(0.1)
                     pyautogui.moveTo(a_pos)
@@ -288,17 +288,18 @@ class MoveHandler :
         time.sleep(0.05)
         pyautogui.press('alt')
     
-    def put_store(self, row ) :
+    def put_store(self,benchmark, row ) :
+
         # center = pos.found_center()
         pyautogui.keyDown('ctrl')
         for i in range(0 , row) :
             for j in range(0 , 4) :
-                print((self.center[0] + 305 + i * 40,self.center[1] - 13 + j * 40))
-                grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( self.center[0] + 305 + i * 37 , self.center[1] - 13 + j * 37 , 45 , 45))
+                print((benchmark[0] + 305 + i * 40,benchmark[1] - 13 + j * 40))
+                grid = pyautogui.locateOnScreen('assets/templates/grid.png',grayscale=False, confidence=.75 , region=( benchmark[0]  + i * 37 , benchmark[1]  + j * 37 , 45 , 45))
                 print(grid)
                 if not grid :
                     print("放入倉庫")
-                    pyautogui.moveTo((self.center[0] + 305 + i * 40 + 19 ,self.center[1] - 13 + j * 40 + 19) , duration = 0.2)
+                    pyautogui.moveTo((benchmark  + i * 40 + 19 ,benchmark  + j * 40 + 19) , duration = 0.2)
                     time.sleep(0.3)
                     pyautogui.click()
                     time.sleep(0.3)
